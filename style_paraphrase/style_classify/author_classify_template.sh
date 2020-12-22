@@ -54,7 +54,7 @@ module purge
 module load cuda/11.0
 conda activate style
 export WANDB_API_KEY=6de83da6c6fa47080f927222261e75c1d7c8bf01
-export HOME=/ukp-storage-1/nothvogel/
+export WANDB_CONFIG_DIR=/ukp-storage-1/nothvogel/.config/wandb
 
 python3 fairseq/train.py {base_dataset}/{dataset}-bin/ \
     --restore-file $ROBERTA_PATH \
