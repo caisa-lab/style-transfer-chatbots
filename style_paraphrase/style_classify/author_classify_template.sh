@@ -1,12 +1,15 @@
 #!/bin/sh
 #SBATCH --job-name=style_classify_{job_id}
 #SBATCH --output="/ukp-storage-1/nothvogel/style-transfer-paraphrase/style_paraphrase/style_classify/logs/log_{job_id}.txt"
-#SBATCH --time=167:00:00
 #SBATCH --partition=aiphes
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=6
 #SBATCH --mem=16GB
 #SBATCH -d singleton
+#SBATCH --ntasks=1
+#SBATCH --mail-user=p.nothvogel@gmail.com
+#SBATCH --mail-type=ALL
+#SBATCH --account=aiphes-student
 
 # Experiment Details :- {top_details}
 # Run Details :- {lower_details}
@@ -50,7 +53,8 @@ unset __conda_setup
 module purge
 module load cuda/11.0
 conda activate style
-wandb login 6de83da6c6fa47080f927222261e75c1d7c8bf01
+export WANDB_API_KEY=6de83da6c6fa47080f927222261e75c1d7c8bf01
+export HOME=/ukp-storage-1/nothvogel/
 
 python3 fairseq/train.py {base_dataset}/{dataset}-bin/ \
     --restore-file $ROBERTA_PATH \

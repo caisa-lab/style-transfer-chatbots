@@ -1,0 +1,5 @@
+[default]
+entity = philno
+project = fairseq_cds
+base_url = https://api.wandb.ai
+
