@@ -59,8 +59,8 @@ hyperparameters = [
     [('roberta_model',), ['LARGE']],
     [('learning_rate',), ['1e-5']],
     [('num_epochs',), [10]],
-    [('max_sentences',), [4]],
-    [('update_freq',), [8]],
+    [('max_sentences',), [32]],
+    [('update_freq',), [1]],
     [('max_positions',), [512]],
 ]
 

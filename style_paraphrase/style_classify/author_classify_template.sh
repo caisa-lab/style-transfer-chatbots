@@ -4,7 +4,7 @@
 #SBATCH --partition=aiphes
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=6
-#SBATCH --mem=16GB
+#SBATCH --mem=40GB
 #SBATCH -d singleton
 #SBATCH --ntasks=1
 #SBATCH --mail-user=p.nothvogel@gmail.com
