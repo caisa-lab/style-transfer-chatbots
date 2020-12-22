@@ -1,16 +1,17 @@
 #!/bin/sh
 #SBATCH --job-name=style_classify_{job_id}
-#SBATCH -o style_paraphrase/style_classify/logs/log_{job_id}.txt
+#SBATCH --output="/ukp-storage-1/nothvogel/style-transfer-paraphrase/style_paraphrase/style_classify/logs/log_{job_id}.txt"
 #SBATCH --time=167:00:00
-#SBATCH --partition=2080ti-long
+#SBATCH --partition=aiphes
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=6
-#SBATCH --mem=45GB
+#SBATCH --mem=16GB
 #SBATCH -d singleton
-#SBATCH --exclude=node172,node181
 
 # Experiment Details :- {top_details}
 # Run Details :- {lower_details}
+
+ROBERTA_LARGE="/ukp-storage-1/nothvogel/.cache/torch/roberta.large"
 
 TOTAL_NUM_UPDATES={total_updates}
 WARMUP_UPDATES={warmup}
@@ -19,6 +20,7 @@ NUM_CLASSES={num_classes}
 MAX_SENTENCES={max_sentences}
 ROBERTA_MODEL={roberta_model}
 MAX_POSITIONS={max_positions}
+UPDATE_FREQ={update_freq}
 
 
 if [ "$ROBERTA_MODEL" = "LARGE" ]; then
@@ -29,7 +31,28 @@ else
    ROBERTA_ARCH=roberta_base
 fi
 
-python fairseq/train.py {base_dataset}/{dataset}-bin/ \
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/ukp-storage-1/nothvogel/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/ukp-storage-1/nothvogel/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/ukp-storage-1/nothvogel/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/ukp-storage-1/nothvogel/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+module purge
+module load cuda/11.0
+conda activate style
+wandb login 6de83da6c6fa47080f927222261e75c1d7c8bf01
+
+python3 fairseq/train.py {base_dataset}/{dataset}-bin/ \
     --restore-file $ROBERTA_PATH \
     --max-positions $MAX_POSITIONS \
     --no-epoch-checkpoints \
@@ -49,8 +72,8 @@ python fairseq/train.py {base_dataset}/{dataset}-bin/ \
     --fp16 --fp16-init-scale 4 --threshold-loss-scale 1 --fp16-scale-window 128 \
     --max-epoch {num_epochs} \
     --best-checkpoint-metric accuracy --maximize-best-checkpoint-metric \
-    --truncate-sequence \
     --find-unused-parameters \
-    --update-freq 4 \
+    --update-freq $UPDATE_FREQ \
     --save-dir style_paraphrase/style_classify/saved_models/save_{job_id} \
-    --log-interval 100
+    --log-interval 100 \
+    --wandb-project fairseq_cds
