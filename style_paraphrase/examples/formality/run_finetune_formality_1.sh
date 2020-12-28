@@ -40,7 +40,7 @@ export WANDB_API_KEY=6de83da6c6fa47080f927222261e75c1d7c8bf01
 export WANDB_CONFIG_DIR=/ukp-storage-1/nothvogel/.config/wandb
 
 
-python3 -m torch.distributed.launch --nproc_per_node=1 $BASE_DIR/run_lm_finetuning.py \
+python3 $BASE_DIR/run_lm_finetuning.py \
     --output_dir=$BASE_DIR/saved_models/model_formality_1 \
     --model_type=gpt2 \
     --model_name_or_path=gpt2 \
