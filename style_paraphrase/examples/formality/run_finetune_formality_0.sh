@@ -50,9 +50,9 @@ python3 -m torch.distributed.launch --nproc_per_node=1 $BASE_DIR/run_lm_finetuni
     --logging_steps 20 \
     --save_total_limit -1 \
     --evaluate_during_training \
-    --num_train_epochs 3 \
-    --gradient_accumulation_steps 2 \
-    --per_gpu_train_batch_size 5 \
+    --num_train_epochs 10 \
+    --gradient_accumulation_steps 1 \
+    --per_gpu_train_batch_size 32 \
     --job_id formality_0 \
     --learning_rate 5e-5 \
     --prefix_input_type paraphrase_250 \
