@@ -18,7 +18,29 @@ export DATA_DIR=/ukp-storage-1/nothvogel/style-transfer-paraphrase/datasets/form
 
 BASE_DIR=/ukp-storage-1/nothvogel/style-transfer-paraphrase/style_paraphrase
 
-python -m torch.distributed.launch --nproc_per_node=1 $BASE_DIR/run_lm_finetuning.py \
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/ukp-storage-1/nothvogel/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/ukp-storage-1/nothvogel/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/ukp-storage-1/nothvogel/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/ukp-storage-1/nothvogel/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+module purge
+module load cuda/11.0
+conda activate style
+export WANDB_API_KEY=6de83da6c6fa47080f927222261e75c1d7c8bf01
+export WANDB_CONFIG_DIR=/ukp-storage-1/nothvogel/.config/wandb
+
+
+python3 -m torch.distributed.launch --nproc_per_node=1 $BASE_DIR/run_lm_finetuning.py \
     --output_dir=$BASE_DIR/saved_models/model_formality_1 \
     --model_type=gpt2 \
     --model_name_or_path=gpt2 \
