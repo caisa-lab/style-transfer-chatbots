@@ -14,9 +14,9 @@
 # Experiment Details :- GPT2 model for formality.
 # Run Details :- accumulation = 2, batch_size = 5, beam_size = 1, cpus = 3, dataset = datasets/formality, eval_batch_size = 1, global_dense_feature_list = none, gpu = m40, learning_rate = 5e-5, memory = 50, model_name = gpt2, ngpus = 1, num_epochs = 3, optimizer = adam, prefix_input_type = paraphrase_250, save_steps = 500, save_total_limit = -1, specific_style_train = 1, stop_token = eos
 
-export DATA_DIR=/ukp-storage-1/nothvogel/style-transfer-paraphrase/datasets/formality
+export DATA_DIR=datasets/formality
 
-BASE_DIR=/ukp-storage-1/nothvogel/style-transfer-paraphrase/style_paraphrase
+BASE_DIR=style_paraphrase
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
