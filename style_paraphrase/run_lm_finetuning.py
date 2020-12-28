@@ -269,7 +269,7 @@ def train(args, gpt2_model, train_dataset, tokenizer):
                         for key, value in results.items():
                             tb_writer.add_scalar('eval_{}'.format(key), value, global_step)
 
-                    tb_writer.add_scalar('learning_rate', scheduler.get_last_lr(), global_step)
+                    tb_writer.add_scalar('learning_rate', scheduler.get_last_lr()[0], global_step)
 
                     for metric_type, metric_vals in loss_metrics.items():
                         tb_writer.add_scalar(
