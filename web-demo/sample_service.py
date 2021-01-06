@@ -35,7 +35,7 @@ with torch.cuda.device(0):
     formality = GPT2Generator(OUTPUT_DIR + "/models/formality")
     formality.gpt2_model.eval()
 
-next_key = ''.join(random.choices(string.ascii_lowercase + string.digits, k=N))
+next_key = ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
 
 style_mapping = {
     "Formality": {"model": formality, "device": 0, "data_file": "formality"}
