@@ -37,5 +37,4 @@ conda activate style
 export WANDB_API_KEY=6de83da6c6fa47080f927222261e75c1d7c8bf01
 export WANDB_CONFIG_DIR=/ukp-storage-1/nothvogel/.config/wandb
 
-python3 -m spacy download en
 python3 sample_service.py
