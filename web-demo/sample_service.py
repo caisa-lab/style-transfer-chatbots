@@ -7,6 +7,8 @@ import subprocess
 import torch
 import time
 import tqdm
+import string
+import pandas as pd
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from style_paraphrase.inference_utils import GPT2Generator
@@ -28,9 +30,12 @@ with open("config.json", "r") as f:
 with torch.cuda.device(0):
     print("Loading paraphraser....")
     paraphraser = GPT2Generator(OUTPUT_DIR + "/models/paraphraser_gpt2_large", upper_length="same_5")
+    paraphraser.gpt2_model.eval()
     print("Loading Formality model...")
     formality = GPT2Generator(OUTPUT_DIR + "/models/formality")
+    formality.gpt2_model.eval()
 
+next_key = ''.join(random.choices(string.ascii_lowercase + string.digits, k=N))
 
 style_mapping = {
     "Formality": {"model": formality, "device": 0, "data_file": "formality"}
@@ -69,23 +74,17 @@ random.seed(args.seed)
 # class EventHandler(FileSystemEventHandler):
 #     def on_any_event(self, event):
 def generation_service():
-    while True:
-        with open(OUTPUT_DIR + "/generated_outputs/queue/queue.txt", "r") as f:
-            queue = f.read().strip()
-        if len(queue) == 0:
-            time.sleep(0.2)
-            continue
-        next_key = queue.split("\n")[0]
+    data = {
+        'random': True
+    }
+    data['settings'] = {
+        'top_p_style': 0.6,
+        'top_p_paraphrase': 0
+    }
 
-        print("Style transferring %s" % next_key)
-
-        while not os.path.exists(OUTPUT_DIR + '/generated_outputs/inputs/%s/written.txt' % next_key):
-            print("Waiting for {}/generated_outputs/inputs/{}/written.txt".format(OUTPUT_DIR, next_key))
-            time.sleep(0.1)
-
-        with open(OUTPUT_DIR + '/generated_outputs/inputs/%s/metadata.json' % next_key, 'r') as f:
-            data = json.loads(f.read())
-
+    numOfSamples = 10
+    outputJson = []
+    for i in range(numOfSamples):
         if data["random"]:
             if data["target_style"] is None:
                 data["target_style"] = random.choice(model_style_list)
@@ -94,13 +93,10 @@ def generation_service():
             input_style = random.choice(data_style_list)
 
             data["input_text"] = random.choice(all_sents_clean[input_style])
-            with open(OUTPUT_DIR + '/generated_outputs/inputs/%s/metadata.json' % next_key, 'w') as f:
-                f.write(json.dumps(data))
 
         input_samples = [data["input_text"] for _ in range(5)]
 
-        with torch.cuda.device(0):
-            output_paraphrase = paraphraser.generate_batch(input_samples, top_p=data["settings"]["top_p_paraphrase"])[0]
+        output_paraphrase = paraphraser.generate_batch(input_samples, top_p=data["settings"]["top_p_paraphrase"])[0]
 
         if data["target_style"] is None:
             transferred_output = ["", "", "", "", ""]
@@ -109,23 +105,24 @@ def generation_service():
                 model = style_mapping[data["target_style"]]["model"]
                 transferred_output = model.generate_batch(output_paraphrase, top_p=data["settings"]["top_p_style"])[0]
 
-        output_json = {
+        output_json.append({
             "input_text": data["input_text"],
             "paraphrase": output_paraphrase,
             "style_transfer": transferred_output,
             "target_style": data["target_style"]
-        }
+        })
 
-        with open(OUTPUT_DIR + '/generated_outputs/final/%s.json' % next_key, 'w') as f:
-            f.write(json.dumps(output_json))
-
-        # once the json has been satisfactorily checked, pop it from the queue file using sed
-        command = "sed -i '1d' {}/generated_outputs/queue/queue.txt".format(OUTPUT_DIR)
-        print(subprocess.check_output(command, shell=True))
+    outPath = OUTPUT_DIR + '/generated_outputs/' + next_key
+    with open(outPath + '.json', 'w') as f:
+        f.write(json.dumps(output_json))
+    
+    df = pd.DataFrame(output_json)
+    df.to_csv(outPath + '.csv')
+    
 
 
 if __name__ == "__main__":
-    path = OUTPUT_DIR + "/generated_outputs/queue"
+    path = OUTPUT_DIR + "/generated_outputs"
     print(path)
     generation_service()
     # event_handler = EventHandler()

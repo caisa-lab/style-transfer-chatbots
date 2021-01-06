@@ -54,3 +54,4 @@ style-venv
 .vscode
 runs/
 datasets/
+man-generation/
