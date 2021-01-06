@@ -30,10 +30,10 @@ with open("config.json", "r") as f:
 with torch.cuda.device(0):
     print("Loading paraphraser....")
     paraphraser = GPT2Generator(OUTPUT_DIR + "/models/paraphraser_gpt2_large", upper_length="same_5")
-    paraphraser.gpt2_model.eval()
+    #paraphraser.gpt2_model.eval()
     print("Loading Formality model...")
     formality = GPT2Generator(OUTPUT_DIR + "/models/formality")
-    formality.gpt2_model.eval()
+    #formality.gpt2_model.eval()
 
 next_key = ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
 
@@ -75,7 +75,8 @@ random.seed(args.seed)
 #     def on_any_event(self, event):
 def generation_service():
     data = {
-        'random': True
+        'random': True,
+        'target_style': None
     }
     data['settings'] = {
         'top_p_style': 0.6,
