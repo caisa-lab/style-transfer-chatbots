@@ -80,7 +80,7 @@ def generation_service():
     }
     data['settings'] = {
         'top_p_style': 0.6,
-        'top_p_paraphrase': 0
+        'top_p_paraphrase': 0.0
     }
 
     numOfSamples = 10
@@ -97,7 +97,8 @@ def generation_service():
 
         input_samples = [data["input_text"] for _ in range(5)]
 
-        output_paraphrase = paraphraser.generate_batch(input_samples, top_p=data["settings"]["top_p_paraphrase"])[0]
+        with torch.cuda.device(0):
+            output_paraphrase = paraphraser.generate_batch(input_samples, top_p=data["settings"]["top_p_paraphrase"])[0]
 
         if data["target_style"] is None:
             transferred_output = ["", "", "", "", ""]
