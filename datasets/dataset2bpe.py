@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, default=None)
 args = parser.parse_args()
 
-roberta = torch.hub.load('pytorch/fairseq', 'roberta.base')
+roberta = torch.hub.load('/ukp-storage-1/nothvogel/style-transfer-paraphrase/fairseq', 'roberta.base', source='local')
 
 for split in ["train", "dev", "test"]:
     data_path = os.path.join(args.dataset, split) + ".txt"

@@ -16,7 +16,7 @@ parser.add_argument('--paraphrase_str', default="paraphrase_250", type=str)
 parser.add_argument('--top_p_value', default=0.0, type=float)
 args = parser.parse_args()
 
-roberta = torch.hub.load('pytorch/fairseq', 'roberta.base')
+roberta = torch.hub.load('/ukp-storage-1/nothvogel/style-transfer-paraphrase/fairseq', 'roberta.base', source='local')
 
 if not torch.cuda.is_available():
     print("Please check if a GPU is available or your Pytorch installation is correct.")
