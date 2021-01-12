@@ -139,7 +139,7 @@ def save_model(gpt2_model, output_dir, args, global_step, tokenizer=None):
 def train(args, gpt2_model, train_dataset, tokenizer):
     """ Train the model """
     if args.local_rank in [-1, 0]:
-        wandb.init(sync_tensorboard=True, project='style-transfer-formality')
+        wandb.init(sync_tensorboard=True, project='style-transfer-politeness')
         wandb.config.update(args)
         try:
             tb_writer = SummaryWriter(logdir="runs/summary_%s" % args.job_id)
