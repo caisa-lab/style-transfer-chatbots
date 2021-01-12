@@ -38,9 +38,10 @@ export WANDB_API_KEY=6de83da6c6fa47080f927222261e75c1d7c8bf01
 export WANDB_CONFIG_DIR=/ukp-storage-1/nothvogel/.config/wandb
 export ROBERTA_LARGE="/ukp-storage-1/nothvogel/.cache/huggingface/transformers/roberta.large"
 
+
 DATASET=datasets/politeness
 python3 datasets/dataset2bpe.py --dataset $DATASET
 
 sh datasets/bpe2binary.sh $DATASET
 
-python3 datasets/paraphrase_splits.py --dataset $DATASET
+python3 datasets/paraphrase_splits.py --dataset $DATASET --model_dir man-generation/models/paraphraser_gpt2_large
