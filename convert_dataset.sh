@@ -1,7 +1,7 @@
 #!/bin/sh
 #SBATCH --job-name=convert_dataset
 #SBATCH --output="/ukp-storage-1/nothvogel/style-transfer-paraphrase/convert_dataset_log.txt"
-#SBATCH --partition=aiphes
+#SBATCH --partition=cai
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=40GB
@@ -9,7 +9,7 @@
 #SBATCH --ntasks=1
 #SBATCH --mail-user=p.nothvogel@gmail.com
 #SBATCH --mail-type=ALL
-#SBATCH --account=aiphes-student
+#SBATCH --account=cai-student
 
 # Experiment Details :- GPT2 model for style transfer.
 # Run Details :- Converting dataset to bpe.
@@ -39,7 +39,7 @@ export WANDB_CONFIG_DIR=/ukp-storage-1/nothvogel/.config/wandb
 export ROBERTA_LARGE="/ukp-storage-1/nothvogel/.cache/huggingface/transformers/roberta.large"
 
 
-DATASET=datasets/politeness
+DATASET=datasets/offensiveness
 python3 datasets/dataset2bpe.py --dataset $DATASET
 
 sh datasets/bpe2binary.sh $DATASET
