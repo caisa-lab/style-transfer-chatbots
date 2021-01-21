@@ -33,22 +33,28 @@ with open("config.json", "r") as f:
 with torch.cuda.device(0):
     print("Loading paraphraser....")
     paraphraser = GPT2Generator(OUTPUT_DIR + "/models/paraphraser_gpt2_large", upper_length="same_5")
-    #paraphraser.gpt2_model.eval()
-    print("Loading Formality model...")
-    formality = GPT2Generator(OUTPUT_DIR + "/models/formality")
-    #formality.gpt2_model.eval()
+    print("Loading target style model...")
+    #formality = GPT2Generator(OUTPUT_DIR + "/models/formality")
+    politeness = GPT2Generator(OUTPUT_DIR + "/models/politeness")
+    #impoliteness = GPT2Generator(OUTPUT_DIR + "/models/impoliteness")
 
 
 style_mapping = {
-    "Formality": {"model": formality, "device": 0, "data_file": "formality"}
+    #"Formality": {"model": formality, "device": 0, "data_file": "formality"}
+    "Politeness": {"model": politeness, "device": 0, "data_file": "politeness"}
+    #"Impoliteness": {"model": impoliteness, "device": 0, "data_file": "politeness"}
 }
 
 data_style_mapping = {
-    "aae": {"data_file": "aae"},
-    "bible": {"data_file": "bible"},
-    "english_tweets": {"data_file": "english_tweets"},
-    "lyrics": {"data_file": "lyrics"},
-    "switchboard": {"data_file": "switchboard"},
+    #"aae": {"data_file": "aae"},
+    #"bible": {"data_file": "bible"},
+    #"english_tweets": {"data_file": "english_tweets"},
+    #"lyrics": {"data_file": "lyrics"},
+    #"switchboard": {"data_file": "switchboard"},
+    #"arg-summaries": {"data_file": "arg-summaries"},
+    #"prod-summaries": {"data_file": "prod-summaries"}
+    "off-reviews": {"data_file": "off-reviews"},
+    "receptiveness": {"data_file": "receptiveness"}
 }
 
 data_style_list = list(data_style_mapping.keys())
@@ -88,14 +94,14 @@ def generation_service():
         'top_p_paraphrase': 0.0
     }
 
-    numOfSamples = 10
+    numOfSamples = 20
     outputJson = []
     for i in range(numOfSamples):
         if data["random"]:
             if data["target_style"] is None:
                 data["target_style"] = random.choice(model_style_list)
 
-            other_styles = [style for style in data_style_list if style != data["target_style"]]
+            other_styles = [style for style in data_style_list if style != data["target_style"]] + ['prod-summaries']
             input_style = random.choice(data_style_list)
 
             data["input_text"] = random.choice(all_sents_clean[input_style])
@@ -120,20 +126,21 @@ def generation_service():
                 "target_style": data["target_style"]
             })
 
-    outPath = OUTPUT_DIR + '/generated_outputs/' + next_key
-    with open(outPath + '.json', 'w') as f:
+    outPath = OUTPUT_DIR + '/generated_outputs/' + data["target_style"] + '/' 
+    os.makedirs(outPath, exist_ok=True)
+    with open(outPath + next_key + '.json', 'w') as f:
         f.write(json.dumps(outputJson))
     
     df = pd.DataFrame(outputJson)
-    df.to_csv(outPath + '.csv')
+    df.to_csv(outPath + next_key + '.csv')
     
 
 
 if __name__ == "__main__":
     path = OUTPUT_DIR + "/generated_outputs"
     print(path)
-    for _ in range(10):
-        generation_service()
+    #for _ in range(10):
+    generation_service()
     # event_handler = EventHandler()
     # observer = Observer()
     # observer.schedule(event_handler, path, recursive=True)
