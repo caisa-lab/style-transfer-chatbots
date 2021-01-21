@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH --job-name=finetune_gpt2_offensiveness_1
-#SBATCH --output="/ukp-storage-1/nothvogel/style-transfer-paraphrase/style_paraphrase/logs/log_politeness_1.txt"
+#SBATCH --output="/ukp-storage-1/nothvogel/style-transfer-paraphrase/style_paraphrase/logs/log_offensiveness_1.txt"
 #SBATCH --partition=cai
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=6
