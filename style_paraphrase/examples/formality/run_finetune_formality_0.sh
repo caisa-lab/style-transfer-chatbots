@@ -48,8 +48,6 @@ python3 $BASE_DIR/run_lm_finetuning.py \
     --data_dir=$DATA_DIR \
     --save_steps 500 \
     --logging_steps 20 \
-    --do_delete_old \
-    --save_total_limit 3 \
     --evaluate_during_training \
     --num_train_epochs 10 \
     --gradient_accumulation_steps 1 \
