@@ -439,10 +439,10 @@ def main():
                                                 tokenizer_class=tokenizer_class)
 
     # Evaluation
+    all_results = {}
+    top_checkpoint = None
     if args.do_eval and args.local_rank in [-1, 0]:
         eval_done = False
-        all_results = {}
-        top_checkpoint = None
         patience = 0
 
         while not eval_done:
@@ -502,6 +502,10 @@ def main():
                 logger.info("Sleeping for {:d} minutes...zzzz...".format(args.eval_frequency_min))
                 time.sleep(args.eval_frequency_min * 60)
 
+    wandb.run.summary.update({
+        'eval_perplexity': min(all_results.values()),
+        'top_checkpoint': top_checkpoint
+    })
     return all_results
 
 
