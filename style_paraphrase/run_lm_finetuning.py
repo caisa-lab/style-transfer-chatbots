@@ -298,6 +298,18 @@ def train(args, gpt2_model, train_dataset, tokenizer):
             train_iterator.close()
             break
 
+        # also save model after each epoch
+        if args.local_rank in [-1, 0] and args.save_steps > 0:
+            checkpoint_prefix = 'checkpoint'
+            # Save model checkpoint
+            output_dir = os.path.join(args.output_dir, '{}-{}'.format(checkpoint_prefix, global_step))
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
+
+            save_model(gpt2_model, output_dir, args, global_step, tokenizer=tokenizer)
+
+            _rotate_checkpoints(args, checkpoint_prefix)
+
     if args.local_rank in [-1, 0]:
         tb_writer.close()
 
