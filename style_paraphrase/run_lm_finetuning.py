@@ -139,9 +139,6 @@ def save_model(gpt2_model, output_dir, args, global_step, tokenizer=None):
 def train(args, gpt2_model, train_dataset, tokenizer):
     """ Train the model """
     if args.local_rank in [-1, 0]:
-        projectName = 'style-transfer-' + os.path.basename(os.path.normpath(args.data_dir))
-        wandb.init(sync_tensorboard=True, project=projectName)
-        wandb.config.update(args)
         try:
             tb_writer = SummaryWriter(logdir="runs/summary_%s" % args.job_id)
         except:
@@ -371,6 +368,10 @@ def evaluate(args, gpt2_model, tokenizer, prefix=""):
 def main():
     parser = get_parser("finetuning")
     args = parser.parse_args()
+
+    projectName = 'style-transfer-' + os.path.basename(os.path.normpath(args.data_dir))
+    wandb.init(sync_tensorboard=True, project=projectName)
+    wandb.config.update(args)
 
     if (os.path.exists(args.output_dir) and os.listdir(args.output_dir) and args.do_train and not args.overwrite_output_dir):
         raise ValueError("Output directory ({}) already exists and is not empty. Use --overwrite_output_dir to overcome.".format(args.output_dir))
