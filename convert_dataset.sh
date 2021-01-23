@@ -39,7 +39,7 @@ export WANDB_CONFIG_DIR=/ukp-storage-1/nothvogel/.config/wandb
 export ROBERTA_LARGE="/ukp-storage-1/nothvogel/.cache/huggingface/transformers/roberta.large"
 
 
-DATASET=datasets/offensiveness
+DATASET=datasets/receptiveness
 python3 datasets/dataset2bpe.py --dataset $DATASET
 
 sh datasets/bpe2binary.sh $DATASET
