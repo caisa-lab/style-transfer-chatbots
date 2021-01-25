@@ -23,6 +23,9 @@ parser = argparse.ArgumentParser()
 
 #parser.add_argument('--seed', type=int, default=34,
 #                    help='Random seed to use for selecting inputs.')
+parser.add_argument('--model', type=str, default=34,
+                    help='Paraphrasing model to use.')
+
 args = parser.parse_args()
 
 with open("config.json", "r") as f:
@@ -33,15 +36,18 @@ with open("config.json", "r") as f:
 with torch.cuda.device(0):
     print("Loading paraphraser....")
     paraphraser = GPT2Generator(OUTPUT_DIR + "/models/paraphraser_gpt2_large", upper_length="same_5")
+    paraphraser.gpt2_model.eval()
     print("Loading target style model...")
-    #formality = GPT2Generator(OUTPUT_DIR + "/models/formality")
-    politeness = GPT2Generator(OUTPUT_DIR + "/models/politeness")
+    
+    model = GPT2Generator(os.path.join(OUTPUT_DIR, 'models', args.model))
+    model.gpt2_model.eval()
     #impoliteness = GPT2Generator(OUTPUT_DIR + "/models/impoliteness")
 
 
 style_mapping = {
-    #"Formality": {"model": formality, "device": 0, "data_file": "formality"}
-    "Politeness": {"model": politeness, "device": 0, "data_file": "politeness"}
+    args.model: {"model": model, "device": 0, "data_file": args.model}
+    #"formal": {"model": formality, "device": 0, "data_file": "formality"}
+    #"Politeness": {"model": politeness, "device": 0, "data_file": "politeness"}
     #"Impoliteness": {"model": impoliteness, "device": 0, "data_file": "politeness"}
 }
 
@@ -52,7 +58,7 @@ data_style_mapping = {
     #"lyrics": {"data_file": "lyrics"},
     #"switchboard": {"data_file": "switchboard"},
     #"arg-summaries": {"data_file": "arg-summaries"},
-    #"prod-summaries": {"data_file": "prod-summaries"}
+    "prod-summaries": {"data_file": "prod-summaries"},
     "off-reviews": {"data_file": "off-reviews"},
     "receptiveness": {"data_file": "receptiveness"}
 }
@@ -91,11 +97,12 @@ def generation_service():
     }
     data['settings'] = {
         'top_p_style': 0.6,
-        'top_p_paraphrase': 0.0
+        'top_p_paraphrase': 0.3
     }
 
-    numOfSamples = 20
+    numOfSamples = 30
     outputJson = []
+    input_samples = []
     for i in range(numOfSamples):
         if data["random"]:
             if data["target_style"] is None:
@@ -106,25 +113,31 @@ def generation_service():
 
             data["input_text"] = random.choice(all_sents_clean[input_style])
 
-        input_samples = [data["input_text"] for _ in range(5)]
+        input_samples += [data["input_text"] for _ in range(5)]
 
-        with torch.cuda.device(0):
-            output_paraphrase = paraphraser.generate_batch(input_samples, top_p=data["settings"]["top_p_paraphrase"])[0]
+    batchSize = 16
+    with torch.no_grad():
+        for i in range(0, len(input_samples), batchSize):
+            output_paraphrase = []
+            transferred_output = []
+            currentBatch = input_samples[i:i + batchSize] 
+            with torch.cuda.device(0):
+                output_paraphrase = paraphraser.generate_batch(currentBatch, top_p=data["settings"]["top_p_paraphrase"])[0]
 
-        if data["target_style"] is None:
-            transferred_output = ["", "", "", "", ""]
-        else:
-            with torch.cuda.device(style_mapping[data["target_style"]]["device"]):
-                model = style_mapping[data["target_style"]]["model"]
-                transferred_output = model.generate_batch(output_paraphrase, top_p=data["settings"]["top_p_style"])[0]
+            if data["target_style"] is None:
+                transferred_output = ["", "", "", "", ""]
+            else:
+                with torch.cuda.device(style_mapping[data["target_style"]]["device"]):
+                    model = style_mapping[data["target_style"]]["model"]
+                    transferred_output = model.generate_batch(output_paraphrase, top_p=data["settings"]["top_p_style"])[0]
 
-        for paraphrase, transferred in zip(output_paraphrase, transferred_output):
-            outputJson.append({
-                "input_text": data["input_text"],
-                "paraphrase": paraphrase,
-                "style_transfer": transferred,
-                "target_style": data["target_style"]
-            })
+            for inputText, paraphrase, transferred in zip(currentBatch, output_paraphrase, transferred_output):
+                outputJson.append({
+                    "input_text": inputText,
+                    "paraphrase": paraphrase,
+                    "style_transfer": transferred,
+                    "target_style": data["target_style"]
+                })
 
     outPath = OUTPUT_DIR + '/generated_outputs/' + data["target_style"] + '/' 
     os.makedirs(outPath, exist_ok=True)
