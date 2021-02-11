@@ -11,9 +11,10 @@ def getSummaries():
     summ = summ.values.reshape(-1)
     return summ
 
-def getReceptiveness():
+def getReceptiveness(receptive=1):
     RECEP_PATH = '/data/daten/datasets/receptiveness/flekSet.csv'
     df = pd.read_csv(RECEP_PATH)
+    df = df.loc[df['recipe'] == receptive]
     df = df.sample(100, replace=False)
 
     return df['text']
@@ -29,10 +30,13 @@ SEED = 1337
 np.random.seed(SEED)
 #outFileName = 'prod-summaries.txt'
 #paragraphs = getSummaries()
-#outFileName = 'receptiveness.txt'
-#paragraphs = getReceptiveness()
-outFileName = 'off-reviews.txt'
-paragraphs = getOffReviews()
+#outFileName = 'non-receptive.txt'
+#paragraphs = getReceptiveness(receptive=0)
+outFileName = 'receptive.txt'
+paragraphs = getReceptiveness(receptive=1)
+#outFileName = 'off-reviews.txt'
+#paragraphs = getOffReviews()
+
 sentences = []
 for paragraph in paragraphs:
     sentences += sent_tokenize(paragraph)
