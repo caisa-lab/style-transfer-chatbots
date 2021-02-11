@@ -211,20 +211,23 @@ def get_logits(model, iteration, generated, segments, style_content_vectors, pas
         if style_content_vectors is None:
             pred = model(
                 input_ids=generated,
-                token_type_ids=segments
+                token_type_ids=segments,
+                return_dict=True
             )
         else:
             pred = model(
                 input_ids=generated,
                 token_type_ids=segments,
-                prefix_input_vectors=style_content_vectors
+                prefix_input_vectors=style_content_vectors,
+                return_dict=True
             )
     else:
         # used the cached representations to speed up decoding
         pred = model(
             input_ids=generated[:, -1:],
             token_type_ids=segments[:, -1:],
-            past_key_values=past
+            past_key_values=past,
+            return_dict=True
         )
     logits = pred['logits']
     past = pred['past_key_values']
