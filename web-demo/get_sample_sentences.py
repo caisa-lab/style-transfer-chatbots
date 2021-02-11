@@ -30,10 +30,10 @@ SEED = 1337
 np.random.seed(SEED)
 #outFileName = 'prod-summaries.txt'
 #paragraphs = getSummaries()
-#outFileName = 'non-receptive.txt'
-#paragraphs = getReceptiveness(receptive=0)
-outFileName = 'receptive.txt'
-paragraphs = getReceptiveness(receptive=1)
+outFileName = 'non-receptive.txt'
+paragraphs = getReceptiveness(receptive=0)
+#outFileName = 'receptive.txt'
+#paragraphs = getReceptiveness(receptive=1)
 #outFileName = 'off-reviews.txt'
 #paragraphs = getOffReviews()
 

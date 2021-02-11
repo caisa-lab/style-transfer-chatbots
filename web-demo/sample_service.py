@@ -38,8 +38,7 @@ with torch.cuda.device(0):
     print("Loading paraphraser....")
     paraphraser = GPT2Generator(OUTPUT_DIR + "/models/paraphraser_gpt2_large", upper_length="same_5")
     paraphraser.gpt2_model.eval()
-    print("Loading target style model...")
-    
+    print("Loading target style model:", args.model)
     model = GPT2Generator(os.path.join(OUTPUT_DIR, 'models', args.model))
     model.gpt2_model.eval()
     #impoliteness = GPT2Generator(OUTPUT_DIR + "/models/impoliteness")
@@ -59,9 +58,10 @@ data_style_mapping = {
     #"lyrics": {"data_file": "lyrics"},
     #"switchboard": {"data_file": "switchboard"},
     #"arg-summaries": {"data_file": "arg-summaries"},
-    "prod-summaries": {"data_file": "prod-summaries"},
-    "off-reviews": {"data_file": "off-reviews"},
-    "receptiveness": {"data_file": "receptiveness"}
+    #"prod-summaries": {"data_file": "prod-summaries"},
+    #"off-reviews": {"data_file": "off-reviews"},
+    "receptive": {"data_file": "receptive"}
+    #"non-receptive": {"data_file": "non-receptive"}
 }
 
 data_style_list = list(data_style_mapping.keys())
@@ -98,10 +98,10 @@ def generation_service():
     }
     data['settings'] = {
         'top_p_style': 0.6,
-        'top_p_paraphrase': 0
+        'top_p_paraphrase': 0.3
     }
 
-    numOfSamples = 30
+    numOfSamples = 50
     outputJson = []
     input_samples = []
     for i in range(numOfSamples):
