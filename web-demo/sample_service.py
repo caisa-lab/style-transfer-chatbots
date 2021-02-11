@@ -9,6 +9,7 @@ import time
 import tqdm
 import string
 import pandas as pd
+import numpy as np
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from style_paraphrase.inference_utils import GPT2Generator
@@ -23,7 +24,7 @@ parser = argparse.ArgumentParser()
 
 #parser.add_argument('--seed', type=int, default=34,
 #                    help='Random seed to use for selecting inputs.')
-parser.add_argument('--model', type=str, default=34,
+parser.add_argument('--model', type=str, default='formal',
                     help='Paraphrasing model to use.')
 
 args = parser.parse_args()
@@ -97,7 +98,7 @@ def generation_service():
     }
     data['settings'] = {
         'top_p_style': 0.6,
-        'top_p_paraphrase': 0.3
+        'top_p_paraphrase': 0
     }
 
     numOfSamples = 30
@@ -122,20 +123,27 @@ def generation_service():
             transferred_output = []
             currentBatch = input_samples[i:i + batchSize] 
             with torch.cuda.device(0):
-                output_paraphrase = paraphraser.generate_batch(currentBatch, top_p=data["settings"]["top_p_paraphrase"])[0]
+                #output_paraphrase = paraphraser.generate_batch(currentBatch, top_p=data["settings"]["top_p_paraphrase"])[0]
+                output_paraphrase, paraphrase_scores = paraphraser.generate_batch(currentBatch, top_p=data["settings"]["top_p_paraphrase"], get_scores=True)
+                paraphrase_perplexities = 2 ** (-np.array(paraphrase_scores))
 
             if data["target_style"] is None:
                 transferred_output = ["", "", "", "", ""]
             else:
                 with torch.cuda.device(style_mapping[data["target_style"]]["device"]):
                     model = style_mapping[data["target_style"]]["model"]
-                    transferred_output = model.generate_batch(output_paraphrase, top_p=data["settings"]["top_p_style"])[0]
+                    transferred_output, transferred_scores = model.generate_batch(output_paraphrase, top_p=data["settings"]["top_p_style"])
+                    transferred_perplexities = 2 ** (-np.array(transferred_scores))
 
-            for inputText, paraphrase, transferred in zip(currentBatch, output_paraphrase, transferred_output):
+            for inputText, paraphrase, paraphrasePerplexity, transferred, transferredPerplexity in zip(
+                    currentBatch, output_paraphrase, paraphrase_perplexities, transferred_output, transferred_perplexities
+                ):
                 outputJson.append({
                     "input_text": inputText,
                     "paraphrase": paraphrase,
+                    "paraphrase_perplexity": paraphrasePerplexity,
                     "style_transfer": transferred,
+                    "style_perplexity": transferredPerplexity,
                     "target_style": data["target_style"]
                 })
 
@@ -146,7 +154,13 @@ def generation_service():
     
     df = pd.DataFrame(outputJson)
     df.to_csv(outPath + next_key + '.csv')
-    
+    df = df.assign(top_p_style=data['settings']['top_p_style'], top_p_paraphrase=data['settings']['top_p_paraphrase'])
+
+    csvPath = os.path.join(OUTPUT_DIR, 'generated_outputs', 'all.csv')
+    if (os.path.isfile(csvPath)):
+        df.to_csv(csvPath, mode='a', header=False)
+    else:
+        df.to_csv(csvPath)
 
 
 if __name__ == "__main__":
