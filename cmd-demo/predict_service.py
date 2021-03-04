@@ -82,24 +82,23 @@ def main():
             output_paraphrase += currentParaphrases
             paraphrase_perplexities += currentPerplexities.tolist()
 
+        # create df of intermediate / diverse paraphrases and save it
         df = pd.DataFrame().assign(source_idx=sourceIndices, original_sentence=input_samples, paraphrase=output_paraphrase, paraphrase_perplexity=paraphrase_perplexities)
         intermediatePath = csvPath.replace('.csv', '_intermediate.csv')
         if (os.path.isfile(intermediatePath)):
             df.to_csv(intermediatePath, mode='a', header=False)
         else:
             df.to_csv(intermediatePath)
-
-        for inputSentence in df['original_sentence'].unique():
-            myMask = df['original_sentence'] == inputSentence
-            currentDf = df.loc[myMask].sort_values(by='paraphrase_perplexity')
-            bestCandidate = currentDf.head(1)
+        print('Saved intermediate / diverse paraphrases in', intermediatePath)
+        
+        # only use the most probable intermediate paraphrase
+        if (args.top_p_paraphrase > 0):
             replaceColumns = [c for c in df.columns if c != 'source_idx']
-            print(replaceColumns)
-            df.loc[myMask, replaceColumns] = bestCandidate[replaceColumns].values.tolist()
-            print('current df:', currentDf)
-            print('best candidate:', bestCandidate)
-            print('after df:', df.loc[myMask])
-            print('========================')
+            for inputSentence in df['original_sentence'].unique():
+                myMask = df['original_sentence'] == inputSentence
+                currentDf = df.loc[myMask].sort_values(by='paraphrase_perplexity')
+                bestCandidate = currentDf.head(1)
+                df.loc[myMask, replaceColumns] = bestCandidate[replaceColumns].values.tolist()
         
         print('Stylistically paraphrasing {} sentences...'.format(len(df)))
         transferred_output = []
@@ -122,6 +121,7 @@ def main():
     else:
         df.to_csv(csvPath)
 
+    print('Done. Saved stylistic paraphrases in', csvPath)
 
 if __name__ == '__main__':
     main()
