@@ -6,13 +6,12 @@ from collections import defaultdict
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 
-def getParams(df, style, turnFilter=['bot', 'user'], prefix=''):
+def updateParams(df, style, hitParams, turnFilter=['bot', 'user'], prefix=''):
     df = df.loc[df['targetStyle'] == style]
     df = df.loc[df['sender'].isin(turnFilter)]
-    hitParams = defaultdict(lambda: defaultdict(dict))
     for _, row in df.iterrows():
         turnId = row['turnId']
-        text = row['text']
+        text = row['text'][:70]
         sender = row['sender']
         hitParams['turns'][turnId]['{}{}Message'.format(sender, prefix)] = text
         hitParams['turns'][turnId]['sender'] = sender
@@ -22,7 +21,7 @@ def getParams(df, style, turnFilter=['bot', 'user'], prefix=''):
 def replaceParams(template: str, params: dict) -> str:
     for key, value in params.items():
         # check if value is another dict
-        if (hasattr(value, '__keys__')):
+        if (hasattr(value, 'keys')):
             continue
         template = template.replace('%{}%'.format(key), value)
     
@@ -44,14 +43,19 @@ os.makedirs(outputDir, exist_ok=True)
 
 with open(os.path.join(dname, 'templates', 'hit-template.html'), 'r') as f:
     hitTemplate = f.read()
+with open(os.path.join(dname, 'templates', 'turn.html'), 'r') as f:
+    turnTemplate = f.read()
 
 scenario = 'webshop'
-baseParams = getParams(df, style='original', turnFilter=['user'])
+baseParams = defaultdict(lambda: defaultdict(dict))
+updateParams(df, style='original', hitParams=baseParams, turnFilter=['user'])
 for style1, style2 in combinations(df['targetStyle'].unique().tolist(), 2):
     turnFilter = ['bot']
-    hitParams = dict(baseParams)
-    hitParams.update(getParams(df, style1, turnFilter, prefix='1'))
-    hitParams.update(getParams(df, style2, turnFilter, prefix='2'))
+
+    hitParams = defaultdict(lambda: defaultdict(dict))
+    hitParams.update(dict(baseParams))
+    updateParams(df, style1, hitParams, turnFilter, prefix='1')
+    updateParams(df, style2, hitParams, turnFilter, prefix='2')
     hitParams.update({
         'style1': style1,
         'style2': style2,
@@ -59,6 +63,13 @@ for style1, style2 in combinations(df['targetStyle'].unique().tolist(), 2):
     })
 
     hitFile = replaceParams(hitTemplate, hitParams)
+
+    turnsHtml = ''
+    for turn, params in sorted(hitParams['turns'].items(), key=lambda x: x[0]):
+        turnsHtml += getTurn(turnTemplate, params)
+        turnsHtml += '\n'
+
+    hitFile = replaceParams(hitFile, { 'turns': turnsHtml })
 
     with open(os.path.join(dname, 'hits', '{}_{}_{}.html'.format(scenario, style1, style2)), 'w') as f:
         f.write(hitFile)
