@@ -1,7 +1,333 @@
-Style 1 Bot 1: %style1Bot1%
+<!DOCTYPE html>
+<html lang="en">
 
-Style 2 User 3: %style2User3%
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat appropriateness HIT</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .shade-1 {
+            background-color: #1D5380;
+            color: #f0f8ff;
+        }
 
-Style 1: %style1%
-Style 2: %style2%
-Scenario: %scenario%
+        .shade-2 {
+            background-color: #2975B3;
+            color: #f0f8ff;
+        }
+
+        .shade-3 {
+            background-color: #3BA7FF;
+        }
+
+        .shade-4 {
+            background-color: #76C1FF;
+        }
+
+        .shade-5 {
+            background-color: #9DD3FF;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <button class="btn btn-lg btn-link" data-toggle="collapse" data-target="#guidelines"
+                    aria-expanded="true" aria-controls="guidelines" role="button">
+                    Guidelines
+                </button>
+            </div>
+            <div class="card-body collapse show" id="guidelines" aria-labelledby="guidelines" aria-expanded="true">
+                Imagine you are a customer looking for a new product and chatting with a support agent. 
+                <p>
+                    We want to evaluate two different agents that respond slightly different according to the following criteria:
+                </p>
+
+                <ul>
+                    <li>
+                        Natural: Please select which agent replies with messages that seem more natural in the context of a conversation.
+                    </li>
+                    <li>
+                        Engaging: Please select which agent is more pleasant, interesting or entertaining.
+                    </li>
+                    <li>
+                        Personal preference: Please select which agent you personally would prefer to chat with.
+                    </li>
+                    <li>
+                        Offensive: Please mark the checkbox in case the agent is rude or otherwise offensive.
+                    </li>
+                </ul>
+                General Hints:
+                <ul>
+                    <li>
+                        You can ignore grammar or spelling errors in messages as long as you can still understand what
+                        it's about.
+                    </li>
+                    <li>
+                        You can click on card headers to show or hide their contents (Guidelines and Examples).
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <button class="btn btn-lg btn-link" data-toggle="collapse" data-target="#examples" aria-expanded="true"
+                    aria-controls="examples" role="button">
+                    Examples
+                </button>
+            </div>
+            <div class="card-body collapse" id="examples" aria-labelledby="examples" aria-expanded="false">
+                <p>Todo: Add some examples, at least for obviously offensive or artificial messages.</p>
+
+                The actual task starts below.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Debug Info
+            </div>
+            <div class="card-body">
+                <p>Scenario: %scenario%</p>
+                <p>Style 1: %style1%</p>
+                <p>Style 2: %style2%</p>
+
+                TODO: Move this to form post data before release!
+            </div>
+        </div>
+
+        <form name="mturk_form" method="post" id="mturk_form" action="%postAction%" onsubmit="return validateForm()">
+            <input type="hidden" name="assignmentId" value="" id="assignmentId">
+            <input type="hidden" name="pairId1" value="%pairId1%">
+            <input type="hidden" name="pairId2" value="%pairId2%">
+            <input type="hidden" name="pairId3" value="%pairId3%">
+            <input type="hidden" name="pairId4" value="%pairId4%">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Task</h4>
+                    <p>
+                        Please read the following conversation carefully and rate the two agents according to the guidelines above.
+                        The conversation is shown in chronological order from top to bottom.
+                    </p>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Agent 1</th>
+                                <th scope="col">Agent 2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>Hello, how can I assist you today?</td>
+                                <td>Hi, how can I help you today?</td>
+                            </tr>
+                            <tr>
+                                <td>Hi, I’m looking for a new phone. Can you recommend anything?</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>What do you think about this phone? iPhone 8</td>
+                                <td>What do you think about this? iPhone 8</td>
+                            </tr>
+                            <tr>
+                                <td>It looks good. How is the sound?</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>The speakers are pretty loud and have a decent quality. Thumbs up from me!</td>
+                                <td>Yeah these speakers sound good</td>
+                            </tr>
+                        </tbody>
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Evaluation Criteria</th>
+                                <th scope="col">Agent 1</th>
+                                <th scope="col">Agent 2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Natural</td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreNatural"
+                                            id="moreNatural1" value="agent1">
+                                        <label class="form-check-label" for="moreNatural1">
+                                            Agent 1 is more natural
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreNatural"
+                                            id="moreNatural2" value="agent2">
+                                        <label class="form-check-label" for="moreNatural2">
+                                            Agent 2 is more natural
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Engaging</td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreEngaging"
+                                            id="moreEngaging1" value="agent1">
+                                        <label class="form-check-label" for="moreEngaging1">
+                                            Agent 1 is more engaging
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreEngaging"
+                                            id="moreEngaging2" value="agent2">
+                                        <label class="form-check-label" for="moreEngaging2">
+                                            Agent 2 is more engaging
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Personal preference</td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreAppropriate"
+                                            id="moreAppropriate1" value="agent1">
+                                        <label class="form-check-label" for="moreAppropriate1">
+                                            I would prefer to chat with Agent 1.
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreAppropriate"
+                                            id="moreAppropriate2" value="agent2">
+                                        <label class="form-check-label" for="moreAppropriate2">
+                                            I would prefer to chat with Agent 2.
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Offensive</td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="agent1Off">
+                                        <label class="form-check-label" for="agent1Off">
+                                            Agent 1 is offensive or rude
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="agent2Off">
+                                        <label class="form-check-label" for="agent2Off">
+                                            Agent 2 is offensive or rude
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="error" id="error" value="true"
+                                onchange="toggleReason(event);">
+                            <label for="error" class="form-check-label">Report a problem</label>
+                        </div>
+                        <textarea type="text" class="form-control" name="reason" id="reason" style="display: none;"
+                            placeholder="Please enter a reason (at least 10 characters)..." minlength="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="alert alert-danger" role="alert" id="bestWorstError" style="display: none;">
+                            You can not select the same pair as most similar and least similar.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <script language='Javascript'>
+        function toggleReason(event) {
+            let reason = document.getElementById('reason');
+            let best1 = document.getElementById('best1');
+            let worst1 = document.getElementById('worst1');
+
+            if (event.target.checked) {
+                show(reason);
+                removeRequired(best1);
+                removeRequired(worst1);
+            } else {
+                hide(reason);
+                addRequired(best1);
+                addRequired(worst1);
+            }
+        }
+
+        function show(element) {
+            element.style.display = 'block';
+            addRequired(element);
+        }
+
+        function hide(element) {
+            element.style.display = 'none';
+            removeRequired(element);
+            element.value = "";
+        }
+
+        function addRequired(element) {
+            element.setAttribute('required', 'true');
+        }
+
+        function removeRequired(element) {
+            element.removeAttribute('required');
+        }
+
+        function getRadioValue(name) {
+            return document.querySelector('input[name="' + name + '"]:checked').value;
+        }
+
+        function validateForm() {
+            let best = getRadioValue('best');
+            let worst = getRadioValue('worst');
+            let error = document.getElementById('error').checked;
+            if (best && (best == worst) && !error) {
+                let errorAlert = document.getElementById('bestWorstError');
+                errorAlert.style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
+    <script language='Javascript'>turkSetAssignmentID();</script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
