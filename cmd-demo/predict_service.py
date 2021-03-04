@@ -57,16 +57,21 @@ model_style_list = list(style_mapping.keys())
 def main():
     input_samples = []
     sourceIndices = []
+    sentenceIndices = []
     csvPath = args.output_file
 
     inDf = pd.read_csv(args.input_file)
     numOfSamples = args.num_of_candidates
+    sentenceIndex = 0
     print('Tokenizing {} samples...'.format(len(inDf['text'])))
     for idx, text in tqdm(inDf['text'].items()):
         sentences = [s.strip() for s in sent_tokenize(text) if len(s.strip()) > 5]
-        for _ in range(numOfSamples):
-            input_samples += sentences
-            sourceIndices += [idx for _ in range(len(sentences))]
+        for sentence in sentences:
+            for _ in range(numOfSamples):
+                input_samples.append(sentence)
+                sourceIndices.append(idx)
+                sentenceIndices.append(sentenceIndex)
+            sentenceIndex += 1
 
     print('Generating intermediate paraphrases of {} sentences...'.format(len(input_samples)))
     batchSize = args.batch_size
@@ -83,8 +88,8 @@ def main():
             paraphrase_perplexities += currentPerplexities.tolist()
 
         # create df of intermediate / diverse paraphrases and save it
-        df = pd.DataFrame().assign(source_idx=sourceIndices, original_sentence=input_samples, paraphrase=output_paraphrase, paraphrase_perplexity=paraphrase_perplexities)
-        df = df.sort_values(by=['source_idx', 'original_sentence', 'paraphrase_perplexity'])
+        df = pd.DataFrame().assign(source_idx=sourceIndices, sentence_idx=sentenceIndices, original_sentence=input_samples, paraphrase=output_paraphrase, paraphrase_perplexity=paraphrase_perplexities)
+        df = df.sort_values(by=['sentence_idx', 'paraphrase_perplexity'])
         intermediatePath = csvPath.replace('.csv', '_intermediate.csv')
         if (os.path.isfile(intermediatePath)):
             df.to_csv(intermediatePath, mode='a', header=False)
@@ -94,7 +99,8 @@ def main():
         
         # only use the most probable intermediate paraphrase
         if (args.top_p_paraphrase > 0):
-            replaceColumns = [c for c in df.columns if c != 'source_idx']
+            # exclude index columns
+            replaceColumns = [c for c in df.columns if not 'idx' in c]
             for inputSentence in df['original_sentence'].unique():
                 myMask = df['original_sentence'] == inputSentence
                 currentDf = df.loc[myMask].sort_values(by='paraphrase_perplexity')
@@ -116,7 +122,7 @@ def main():
 
     df = df.assign(style_transfer=transferred_output, style_perplexity=transferred_perplexities)
     df = df.assign(target_style=args.model, top_p_style=args.top_p_style, top_p_paraphrase=args.top_p_paraphrase)
-    df = df.sort_values(by=['source_idx', 'original_sentence', 'style_perplexity'])
+    df = df.sort_values(by=['sentence_idx', 'style_perplexity'])
 
     if (os.path.isfile(csvPath)):
         df.to_csv(csvPath, mode='a', header=False)

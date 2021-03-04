@@ -5,8 +5,6 @@ How much are you willing to spend?,webshop,bot2,original
 I can spend around 500$.,webshop,user2,original
 I can recommend the following phones:,webshop,bot3,original
 iPhone SE or Galaxy S8,webshop,bot4,original
-I prefer Apple devices.,webshop,user3,original
-How is the battery life?,webshop,user4,original
-The battery will last for a full day without charging.,webshop,bot5,original
-The screen is also nice.,webshop,bot6,original
-That sounds great. Thank you!,webshop,user5,original
+I prefer Apple devices. How is the battery life?,webshop,user3,original
+The battery will last for a full day without charging. The screen is also nice.,webshop,bot5,original
+That sounds great. Thank you!,webshop,user4,original
