@@ -55,3 +55,4 @@ style-venv
 runs/
 datasets/
 man-generation/
+human-eval/hits/
