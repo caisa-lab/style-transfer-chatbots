@@ -1,20 +1,21 @@
 import os
 import pandas as pd
 from itertools import combinations
+from collections import defaultdict
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 
 def getParams(df, style, turnFilter=['bot', 'user'], prefix=''):
     df = df.loc[df['targetStyle'] == style]
-    hitParams = {}
+    df = df.loc[df['sender'].isin(turnFilter)]
+    hitParams = defaultdict(lambda: defaultdict(dict))
     for _, row in df.iterrows():
-        turnId = row['turn']
-        # skip turns not in filter
-        if not any([f in turnId for f in turnFilter]):
-            continue
+        turnId = row['turnId']
         text = row['text']
-        hitParams[prefix + turnId.title()] = text
+        sender = row['sender']
+        hitParams['turns'][turnId]['{}{}Message'.format(sender, prefix)] = text
+        hitParams['turns'][turnId]['sender'] = sender
 
     return hitParams
 
@@ -26,6 +27,16 @@ def replaceParams(template: str, params: dict) -> str:
         template = template.replace('%{}%'.format(key), value)
     
     return template
+
+def getTurn(turnTemplate: str, params: dict) -> str:
+    tempParams = {
+        'userMessage': '',
+        'bot1Message': '',
+        'bot2Message': ''
+    }
+    tempParams.update(params)
+    return replaceParams(turnTemplate, tempParams)
+    
 
 df = pd.read_csv(os.path.join(dname, 'output.csv'), index_col=0)
 outputDir = os.path.join(dname, 'hits')
@@ -39,9 +50,13 @@ baseParams = getParams(df, style='original', turnFilter=['user'])
 for style1, style2 in combinations(df['targetStyle'].unique().tolist(), 2):
     turnFilter = ['bot']
     hitParams = dict(baseParams)
-    hitParams.update(getParams(df, style1, turnFilter, prefix='style1'))
-    hitParams.update(getParams(df, style2, turnFilter, prefix='style2'))
-    hitParams.update(style1=style1, style2=style2, scenario=scenario)
+    hitParams.update(getParams(df, style1, turnFilter, prefix='1'))
+    hitParams.update(getParams(df, style2, turnFilter, prefix='2'))
+    hitParams.update({
+        'style1': style1,
+        'style2': style2,
+        'scenario': scenario
+    })
 
     hitFile = replaceParams(hitTemplate, hitParams)
 

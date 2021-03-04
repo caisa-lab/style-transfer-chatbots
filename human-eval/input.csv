@@ -1,10 +1,10 @@
-text,scenario,turn,targetStyle
-"Hi, how can I help you today?",webshop,bot1,original
-"Hello, I'm looking for a new phone.",webshop,user1,original
-How much are you willing to spend?,webshop,bot2,original
-I can spend around 500$.,webshop,user2,original
-I can recommend the following phones:,webshop,bot3,original
-iPhone SE or Galaxy S8,webshop,bot4,original
-I prefer Apple devices. How is the battery life?,webshop,user3,original
-The battery will last for a full day without charging. The screen is also nice.,webshop,bot5,original
-That sounds great. Thank you!,webshop,user4,original
+turnId,text,sender,scenario,targetStyle
+0,"Hi, how can I help you today?",bot,webshop,original
+1,"Hello, I'm looking for a new phone.",user,webshop,original
+2,How much are you willing to spend?,bot,webshop,original
+3,I can spend around 500$.,user,webshop,original
+4,I can recommend the following phones:,bot,webshop,original
+5,iPhone SE or Galaxy S8,bot,webshop,original
+6,I prefer Apple devices. How is the battery life?,user,webshop,original
+7,The battery will last for a full day without charging. The screen is also nice.,bot,webshop,original
+8,That sounds great. Thank you!,user,webshop,original
