@@ -1,0 +1,30 @@
+Company  Webshop Chatbot:
+
+Hi, how can I help you today?
+Hello. I'm looking for a new phone.
+How much are you willing to spend?
+I can spend around 500$.
+I can recommend the following phones:
+iPhone SE or Galaxy S8
+I prefer Apple devices. How is the battery life?
+The battery will last for a full day without charging. The screen is also nice.
+That sounds great. Thank you!
+
+
+Community forum:
+
+Hey guys, I'm looking for a new phone. I have about 500$ to spend.
+Hi there, depending on if you want Android or iOS I recommend these phones:
+Galaxy S8 or iPhone SE
+
+
+Debate bot:
+
+Source: https://www.kialo.com/pro-life-vs-pro-choice-should-abortion-be-legal-5637
+
+Should pregnant people have the right to choose abortion?
+Many women do not become pregnant by choice. It is wrong to force these women to remain pregnant when they do not want to be.
+Life begins at conception. Therefore, abortion violates the right to life of the fetus.
+Access to legal abortion improves the health and safety of women.
+I disagree. Abortion can have harmful mental and physical consequences for the woman involved.
+Women have a right to bodily autonomy and shoulf ultimatively be able to make choices about what happens to their bodies.

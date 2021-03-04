@@ -84,6 +84,7 @@ def main():
 
         # create df of intermediate / diverse paraphrases and save it
         df = pd.DataFrame().assign(source_idx=sourceIndices, original_sentence=input_samples, paraphrase=output_paraphrase, paraphrase_perplexity=paraphrase_perplexities)
+        df = df.sort_values(by=['source_idx', 'original_sentence', 'paraphrase_perplexity'])
         intermediatePath = csvPath.replace('.csv', '_intermediate.csv')
         if (os.path.isfile(intermediatePath)):
             df.to_csv(intermediatePath, mode='a', header=False)
@@ -115,7 +116,8 @@ def main():
 
     df = df.assign(style_transfer=transferred_output, style_perplexity=transferred_perplexities)
     df = df.assign(target_style=args.model, top_p_style=args.top_p_style, top_p_paraphrase=args.top_p_paraphrase)
-    
+    df = df.sort_values(by=['source_idx', 'original_sentence', 'style_perplexity'])
+
     if (os.path.isfile(csvPath)):
         df.to_csv(csvPath, mode='a', header=False)
     else:
