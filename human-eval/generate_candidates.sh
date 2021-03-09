@@ -1,6 +1,6 @@
 GEN_SCRIPT="cmd-demo/predict_service.py"
-
-for style in formal informal; 
+ 
+for style in formal informal polite impolite receptive not_receptive offensive not_offensive; 
 do
     python3 "$GEN_SCRIPT" \
         --model $style \
