@@ -55,6 +55,6 @@ style-venv
 runs/
 datasets/
 man-generation/
-human-eval/hits/
+human-eval/hits*/
 human-eval/output.csv
-human-eval/paraphrases*.csv
+human-eval/**/paraphrases*.csv
