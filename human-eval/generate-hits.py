@@ -11,7 +11,7 @@ def updateParams(df, style, hitParams, turnFilter=['bot', 'user'], prefix=''):
     df = df.loc[df['sender'].isin(turnFilter)]
     for _, row in df.iterrows():
         turnId = row['turnId']
-        text = row['text'][:70]
+        text = row['text']
         sender = row['sender']
         hitParams['turns'][turnId]['{}{}Message'.format(sender, prefix)] = text
         hitParams['turns'][turnId]['sender'] = sender
@@ -46,32 +46,35 @@ with open(os.path.join(dname, 'templates', 'hit-template.html'), 'r') as f:
 with open(os.path.join(dname, 'templates', 'turn.html'), 'r') as f:
     turnTemplate = f.read()
 
-scenario = 'webshop'
-baseParams = defaultdict(lambda: defaultdict(dict))
-updateParams(df, style='original', hitParams=baseParams, turnFilter=['user'])
-for style1, style2 in combinations(df['targetStyle'].unique().tolist(), 2):
-    turnFilter = ['bot']
+dfBackup = df
+for scenario in dfBackup['scenario'].unique():
+    df = dfBackup
+    df = df.loc[df['scenario'] == scenario]
+    baseParams = defaultdict(lambda: defaultdict(dict))
+    updateParams(df, style='original', hitParams=baseParams, turnFilter=['user'])
+    for style1, style2 in combinations(df['targetStyle'].unique().tolist(), 2):
+        turnFilter = ['bot']
 
-    hitParams = defaultdict(lambda: defaultdict(dict))
-    hitParams.update(dict(baseParams))
-    updateParams(df, style1, hitParams, turnFilter, prefix='1')
-    updateParams(df, style2, hitParams, turnFilter, prefix='2')
-    hitParams.update({
-        'style1': style1,
-        'style2': style2,
-        'scenario': scenario
-    })
+        hitParams = defaultdict(lambda: defaultdict(dict))
+        hitParams.update(dict(baseParams))
+        updateParams(df, style1, hitParams, turnFilter, prefix='1')
+        updateParams(df, style2, hitParams, turnFilter, prefix='2')
+        hitParams.update({
+            'style1': style1,
+            'style2': style2,
+            'scenario': scenario
+        })
 
-    hitFile = replaceParams(hitTemplate, hitParams)
+        hitFile = replaceParams(hitTemplate, hitParams)
 
-    turnsHtml = ''
-    for turn, params in sorted(hitParams['turns'].items(), key=lambda x: x[0]):
-        turnsHtml += getTurn(turnTemplate, params)
-        turnsHtml += '\n'
+        turnsHtml = ''
+        for turn, params in sorted(hitParams['turns'].items(), key=lambda x: x[0]):
+            turnsHtml += getTurn(turnTemplate, params)
+            turnsHtml += '\n'
 
-    hitFile = replaceParams(hitFile, { 'turns': turnsHtml })
+        hitFile = replaceParams(hitFile, { 'turns': turnsHtml })
 
-    with open(os.path.join(dname, 'hits', '{}_{}_{}.html'.format(scenario, style1, style2)), 'w') as f:
-        f.write(hitFile)
+        with open(os.path.join(dname, 'hits', '{}_{}_{}.html'.format(scenario, style1, style2)), 'w') as f:
+            f.write(hitFile)
 
 

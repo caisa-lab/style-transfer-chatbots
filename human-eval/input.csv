@@ -8,3 +8,9 @@ turnId,text,sender,scenario,targetStyle
 6,I prefer Apple devices. How is the battery life?,user,webshop,original
 7,The battery will last for a full day without charging. The screen is also nice.,bot,webshop,original
 8,That sounds great. Thank you!,user,webshop,original
+0,Should pregnant people have the right to choose abortion?,bot,changeMyView,original
+1,Many women do not become pregnant by choice. It is wrong to force these women to remain pregnant when they do not want to be.,user,changeMyView,original
+2,"Life begins at conception. Therefore, abortion violates the right to life of the fetus.",bot,changeMyView,original
+3,Access to legal abortion improves the health and safety of women.,user,changeMyView,original
+4,I disagree. Abortion can have harmful mental and physical consequences for the woman involved.,bot,changeMyView,original
+5,Women have a right to bodily autonomy and shoulf ultimatively be able to make choices about what happens to their bodies.,user,changeMyView,original
