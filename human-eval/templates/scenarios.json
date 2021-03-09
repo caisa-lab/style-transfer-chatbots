@@ -1,0 +1,10 @@
+{
+    "webshop": {
+        "botName": "Agent",
+        "userName": "Customer"
+    },
+    "changeMyView": {
+        "botName": "Debate Bot",
+        "userName": "User"
+    }
+}

@@ -1,4 +1,5 @@
 import os
+import json
 import pandas as pd
 from itertools import combinations
 from collections import defaultdict
@@ -45,6 +46,8 @@ with open(os.path.join(dname, 'templates', 'hit-template.html'), 'r') as f:
     hitTemplate = f.read()
 with open(os.path.join(dname, 'templates', 'turn.html'), 'r') as f:
     turnTemplate = f.read()
+with open(os.path.join(dname, 'templates', 'scenarios.json'), 'r') as f:
+    scenarios = json.load(f)
 
 dfBackup = df
 for scenario in dfBackup['scenario'].unique():
@@ -73,6 +76,7 @@ for scenario in dfBackup['scenario'].unique():
             turnsHtml += '\n'
 
         hitFile = replaceParams(hitFile, { 'turns': turnsHtml })
+        hitFile = replaceParams(hitFile, scenarios[scenario])
 
         with open(os.path.join(dname, 'hits', '{}_{}_{}.html'.format(scenario, style1, style2)), 'w') as f:
             f.write(hitFile)

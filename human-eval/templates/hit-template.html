@@ -43,23 +43,23 @@
                 </button>
             </div>
             <div class="card-body collapse show" id="guidelines" aria-labelledby="guidelines" aria-expanded="true">
-                Imagine you are a customer looking for a new product and chatting with a support agent. 
+                Imagine you are a %userName% looking for a new product and chatting with a support %botName%. 
                 <p>
-                    We want to evaluate two different agents that respond slightly different according to the following criteria:
+                    We want to evaluate two different %botName%s that respond slightly different according to the following criteria:
                 </p>
 
                 <ul>
                     <li>
-                        Natural: Please select which agent replies with messages that seem more natural in the context of a conversation.
+                        Natural: Please select which %botName% replies with messages that seem more natural in the context of a conversation.
                     </li>
                     <li>
-                        Engaging: Please select which agent is more pleasant, interesting or entertaining.
+                        Engaging: Please select which %botName% is more pleasant, interesting or entertaining.
                     </li>
                     <li>
-                        Personal preference: Please select which agent you personally would prefer to chat with.
+                        Personal preference: Please select which %botName% you personally would prefer to chat with.
                     </li>
                     <li>
-                        Offensive: Please mark the checkbox in case the agent is rude or otherwise offensive.
+                        Offensive: Please mark the checkbox in case the %botName% is rude or otherwise offensive.
                     </li>
                 </ul>
                 General Hints:
@@ -112,45 +112,45 @@
                 <div class="card-body">
                     <h4>Task</h4>
                     <p>
-                        Please read the following conversation carefully and rate the two agents according to the guidelines above.
+                        Please read the following conversation carefully and rate the two %botName%s according to the guidelines above.
                         The conversation is shown in chronological order from top to bottom.
                     </p>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Customer</th>
-                                <th scope="col">Agent 1</th>
-                                <th scope="col">Agent 2</th>
+                                <th scope="col">%userName%</th>
+                                <th scope="col">%botName% 1</th>
+                                <th scope="col">%botName% 2</th>
                             </tr>
                         </thead>
                         <tbody>
                             %turns%
                         </tbody>
-                        <thead class="thead-dark">
+                        <tbody class="thead-dark">
                             <tr>
                                 <th scope="col">Evaluation Criteria</th>
-                                <th scope="col">Agent 1</th>
-                                <th scope="col">Agent 2</th>
+                                <th scope="col">%botName% 1</th>
+                                <th scope="col">%botName% 2</th>
                             </tr>
-                        </thead>
+                        </tbody>
                         <tbody>
                             <tr>
                                 <td>Natural</td>
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreNatural"
-                                            id="moreNatural1" value="agent1">
+                                            id="moreNatural1" value="bot1">
                                         <label class="form-check-label" for="moreNatural1">
-                                            Agent 1 is more natural
+                                            %botName% 1 is more natural
                                         </label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreNatural"
-                                            id="moreNatural2" value="agent2">
+                                            id="moreNatural2" value="bot2">
                                         <label class="form-check-label" for="moreNatural2">
-                                            Agent 2 is more natural
+                                            %botName% 2 is more natural
                                         </label>
                                     </div>
                                 </td>
@@ -160,18 +160,18 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreEngaging"
-                                            id="moreEngaging1" value="agent1">
+                                            id="moreEngaging1" value="bot1">
                                         <label class="form-check-label" for="moreEngaging1">
-                                            Agent 1 is more engaging
+                                            %botName% 1 is more engaging
                                         </label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreEngaging"
-                                            id="moreEngaging2" value="agent2">
+                                            id="moreEngaging2" value="bot2">
                                         <label class="form-check-label" for="moreEngaging2">
-                                            Agent 2 is more engaging
+                                            %botName% 2 is more engaging
                                         </label>
                                     </div>
                                 </td>
@@ -180,19 +180,19 @@
                                 <td>Personal preference</td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="moreAppropriate"
-                                            id="moreAppropriate1" value="agent1">
-                                        <label class="form-check-label" for="moreAppropriate1">
-                                            I would prefer to chat with Agent 1.
+                                        <input class="form-check-input" type="radio" name="personalPref"
+                                            id="personalPref1" value="bot1">
+                                        <label class="form-check-label" for="personalPref1">
+                                            I would prefer to chat with %botName% 1.
                                         </label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="moreAppropriate"
-                                            id="moreAppropriate2" value="agent2">
-                                        <label class="form-check-label" for="moreAppropriate2">
-                                            I would prefer to chat with Agent 2.
+                                        <input class="form-check-input" type="radio" name="personalPref"
+                                            id="personalPref2" value="bot2">
+                                        <label class="form-check-label" for="personalPref2">
+                                            I would prefer to chat with %botName% 2.
                                         </label>
                                     </div>
                                 </td>
@@ -201,17 +201,17 @@
                                 <td>Offensive</td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="agent1Off">
-                                        <label class="form-check-label" for="agent1Off">
-                                            Agent 1 is offensive or rude
+                                        <input class="form-check-input" type="checkbox" value="true" id="bot1Off" name="bot1Off">
+                                        <label class="form-check-label" for="bot1Off">
+                                            %botName% 1 is offensive or rude
                                         </label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="agent2Off">
-                                        <label class="form-check-label" for="agent2Off">
-                                            Agent 2 is offensive or rude
+                                        <input class="form-check-input" type="checkbox" value="true" id="bot2Off" name="bot2Off">
+                                        <label class="form-check-label" for="bot2Off">
+                                            %botName% 2 is offensive or rude
                                         </label>
                                     </div>
                                 </td>
