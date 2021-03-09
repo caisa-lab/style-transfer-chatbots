@@ -25,6 +25,8 @@ parser.add_argument('--model', type=str, required=True,
                     help='Paraphrasing model to use.')
 parser.add_argument('--input_file', type=str, required=True,
                     help='Input CSV file with "text" column that will be paraphrased.')
+parser.add_argument('--text_column', type=str, default='text',
+                    help='Column name of the input CSV file that contains the text that will be paraphrased.')
 parser.add_argument('--output_file', type=str, default=os.path.join(OUTPUT_DIR, 'paraphrases.csv'),
                     help='Path of output CSV file.')
 parser.add_argument('--top_p_paraphrase', type=float, default=0.3,
@@ -33,6 +35,8 @@ parser.add_argument('--top_p_style', type=float, default=0.6,
                     help='Top p (nucleus) sampling value to use for the stylistic paraphrase.')
 parser.add_argument('--num_of_candidates', type=int, default=5,
                     help='Number of candidates to generate for each paraphrase input.')
+parser.add_argument('--filter_candidates', type=bool, default=False,
+                    help='If set to true, will only save the candidate with the best perplexity.')
 parser.add_argument('--batch_size', type=int, default=16,
                     help='Batch size to use for predictions')
 
@@ -59,12 +63,15 @@ def main():
     sourceIndices = []
     sentenceIndices = []
     csvPath = args.output_file
+    textCol = args.text_column
 
+    print('Input file:', args.input_file)
+    print('Using text from the column named:', args.text_column)
     inDf = pd.read_csv(args.input_file)
     numOfSamples = args.num_of_candidates
     sentenceIndex = 0
-    print('Tokenizing {} samples...'.format(len(inDf['text'])))
-    for idx, text in tqdm(inDf['text'].items()):
+    print('Tokenizing {} samples...'.format(len(inDf[textCol])))
+    for idx, text in tqdm(inDf[textCol].items()):
         sentences = [s.strip() for s in sent_tokenize(text) if len(s.strip()) > 5]
         for sentence in sentences:
             for _ in range(numOfSamples):
@@ -123,6 +130,15 @@ def main():
     df = df.assign(style_transfer=transferred_output, style_perplexity=transferred_perplexities)
     df = df.assign(target_style=args.model, top_p_style=args.top_p_style, top_p_paraphrase=args.top_p_paraphrase)
     df = df.sort_values(by=['sentence_idx', 'style_perplexity'])
+
+    if (args.filter_candidates):
+        tempDf = []
+        for sentenceIdx in df['sentence_idx'].unique():
+            candidates = df.loc[df['sentence_idx'] == sentenceIdx]
+            candidates = candidates.sort_values(by='style_perplexity')
+            bestCandidate = candidates.iloc[0].to_dict()
+            tempDf.append(bestCandidate)
+        df = pd.DataFrame(tempDf)
 
     if (os.path.isfile(csvPath)):
         df.to_csv(csvPath, mode='a', header=False)
