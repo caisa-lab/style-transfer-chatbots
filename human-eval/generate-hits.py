@@ -1,5 +1,6 @@
 import os
 import json
+import random
 import pandas as pd
 from itertools import combinations
 from collections import defaultdict
@@ -36,6 +37,13 @@ def getTurn(turnTemplate: str, params: dict) -> str:
     }
     tempParams.update(params)
     return replaceParams(turnTemplate, tempParams)
+
+def isFromSameDomain(styles):
+    if ('original' in styles):
+        return True
+    
+    style1, style2 = sorted(styles, key=len)
+    return style1.lower() in style2.lower()
     
 
 df = pd.read_csv(os.path.join(dname, 'output.csv'), index_col=0)
@@ -55,7 +63,13 @@ for scenario in dfBackup['scenario'].unique():
     df = df.loc[df['scenario'] == scenario]
     baseParams = defaultdict(lambda: defaultdict(dict))
     updateParams(df, style='original', hitParams=baseParams, turnFilter=['user'])
-    for style1, style2 in combinations(df['targetStyle'].unique().tolist(), 2):
+    for styles in combinations(df['targetStyle'].unique().tolist(), 2):
+        styles = list(styles)
+        if (not isFromSameDomain(styles)):
+            continue
+        # shuffle in-place
+        random.shuffle(styles)
+        style1, style2 = styles
         turnFilter = ['bot']
 
         hitParams = defaultdict(lambda: defaultdict(dict))
