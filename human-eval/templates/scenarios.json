@@ -1,10 +1,12 @@
 {
     "webshop": {
         "botName": "Agent",
-        "userName": "Customer"
+        "userName": "Customer",
+        "description": "Imagine you are a Customer looking for a new product and chatting with a support Agent. "
     },
     "changeMyView": {
         "botName": "Debate Bot",
-        "userName": "User"
+        "userName": "User",
+        "description": "Imagine you want to "
     }
 }
