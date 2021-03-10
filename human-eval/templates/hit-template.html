@@ -50,13 +50,16 @@
 
                 <ul>
                     <li>
-                        Natural: Please select which %botName% replies with messages that seem more natural in the context of a conversation.
+                        Natural: Please select which %botName% replies with messages that seem more natural in the context of this conversation.
                     </li>
                     <li>
                         Engaging: Please select which %botName% is more pleasant, interesting or entertaining.
                     </li>
                     <li>
                         Personal preference: Please select which %botName% you personally would prefer to chat with.
+                    </li>
+                    <li>
+                        Incoherent: Please mark the checkbox in case the messages of the %botName% are incomprehensible or unrelated to the topic of the conversation.
                     </li>
                     <li>
                         Offensive: Please mark the checkbox in case the %botName% is rude or otherwise offensive.
@@ -98,16 +101,15 @@
                 <p>Style 1: %style1%</p>
                 <p>Style 2: %style2%</p>
 
-                TODO: Move this to form post data before release!
+                TODO: Remove this before release!
             </div>
         </div>
 
         <form name="mturk_form" method="post" id="mturk_form" action="%postAction%" onsubmit="return validateForm()">
             <input type="hidden" name="assignmentId" value="" id="assignmentId">
-            <input type="hidden" name="pairId1" value="%pairId1%">
-            <input type="hidden" name="pairId2" value="%pairId2%">
-            <input type="hidden" name="pairId3" value="%pairId3%">
-            <input type="hidden" name="pairId4" value="%pairId4%">
+            <input type="hidden" name="scenario" value="%scenario%">
+            <input type="hidden" name="style1" value="%style1%">
+            <input type="hidden" name="style2" value="%style2%">
             <div class="card">
                 <div class="card-body">
                     <h4>Task</h4>
@@ -139,7 +141,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreNatural"
-                                            id="moreNatural1" value="bot1">
+                                            id="moreNatural1" value="%style1%">
                                         <label class="form-check-label" for="moreNatural1">
                                             %botName% 1 is more natural
                                         </label>
@@ -148,7 +150,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreNatural"
-                                            id="moreNatural2" value="bot2">
+                                            id="moreNatural2" value="%style2%">
                                         <label class="form-check-label" for="moreNatural2">
                                             %botName% 2 is more natural
                                         </label>
@@ -160,7 +162,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreEngaging"
-                                            id="moreEngaging1" value="bot1">
+                                            id="moreEngaging1" value="%style1%">
                                         <label class="form-check-label" for="moreEngaging1">
                                             %botName% 1 is more engaging
                                         </label>
@@ -169,7 +171,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreEngaging"
-                                            id="moreEngaging2" value="bot2">
+                                            id="moreEngaging2" value="%style2%">
                                         <label class="form-check-label" for="moreEngaging2">
                                             %botName% 2 is more engaging
                                         </label>
@@ -180,19 +182,38 @@
                                 <td>Personal preference</td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="personalPref"
-                                            id="personalPref1" value="bot1">
-                                        <label class="form-check-label" for="personalPref1">
+                                        <input class="form-check-input" type="radio" name="personalPreference"
+                                            id="personalPreference1" value="%style1%">
+                                        <label class="form-check-label" for="personalPreference1">
                                             I would prefer to chat with %botName% 1.
                                         </label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="personalPref"
-                                            id="personalPref2" value="bot2">
-                                        <label class="form-check-label" for="personalPref2">
+                                        <input class="form-check-input" type="radio" name="personalPreference"
+                                            id="personalPreference2" value="%style2%">
+                                        <label class="form-check-label" for="personalPreference2">
                                             I would prefer to chat with %botName% 2.
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Incoherent</td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="true" id="bot1Incoherent" name="bot1Incoherent">
+                                        <label class="form-check-label" for="bot1Incoherent">
+                                            The messages of %botName% 1 are incoherent or unrelated
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="true" id="bot2Incoherent" name="bot2Incoherent">
+                                        <label class="form-check-label" for="bot2Incoherent">
+                                            The messages of %botName% 2 are incoherent or unrelated
                                         </label>
                                     </div>
                                 </td>
