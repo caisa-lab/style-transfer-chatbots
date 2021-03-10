@@ -20,12 +20,6 @@ def updateParams(df, style, hitParams, turnFilter=['bot', 'user'], prefix=''):
 
     return hitParams
 
-def setConstParams(df, hitParams):
-    df = df.loc[df['isConst'] == 'true']
-    updateParams(df, 'original', hitParams, turnFilter=['user'])
-    updateParams(df, 'original', hitParams, turnFilter=['bot'], prefix='1')
-    updateParams(df, 'original', hitParams, turnFilter=['bot'], prefix='2')
-
 def replaceParams(template: str, params: dict) -> str:
     for key, value in params.items():
         # check if value is another dict
@@ -68,11 +62,7 @@ for scenario in dfBackup['scenario'].unique():
     df = dfBackup
     df = df.loc[df['scenario'] == scenario]
     baseParams = defaultdict(lambda: defaultdict(dict))
-    # add turns that should be kept unmodified (e.g. product names)
     updateParams(df, style='original', hitParams=baseParams, turnFilter=['user'])
-    setConstParams(df, baseParams)
-    # avoid overwriting const sentences
-    df = df.loc[df['isConst'] != 'true']
 
     for styles in combinations(df['targetStyle'].unique().tolist(), 2):
         styles = list(styles)

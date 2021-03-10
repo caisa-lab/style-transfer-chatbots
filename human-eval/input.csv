@@ -1,16 +1,16 @@
 turnId,text,sender,scenario,targetStyle,isConst
-0,"Hi, how can I help you today?",bot,webshop,original,false
-1,"Hello, I'm looking for a new phone.",user,webshop,original,false
-2,How much are you willing to spend?,bot,webshop,original,false
-3,I can spend around 500$.,user,webshop,original,false
-4,I can recommend the following phones:,bot,webshop,original,false
-5,iPhone SE or Galaxy S8,bot,webshop,original,true
-6,I prefer Apple devices. How is the battery life?,user,webshop,original,false
-7,The battery will last for a full day without charging. The screen is also nice.,bot,webshop,original,false
-8,That sounds great. Thank you!,user,webshop,original,false
-0,Should pregnant people have the right to choose abortion?,bot,changeMyView,original,false
-1,Many women do not become pregnant by choice. It is wrong to force these women to remain pregnant when they do not want to be.,user,changeMyView,original,false
-2,"Life begins at conception. Therefore, abortion violates the right to life of the fetus.",bot,changeMyView,original,false
-3,Access to legal abortion improves the health and safety of women.,user,changeMyView,original,false
-4,I disagree. Abortion can have harmful mental and physical consequences for the woman involved.,bot,changeMyView,original,false
-5,Women have a right to bodily autonomy and shoulf ultimatively be able to make choices about what happens to their bodies.,user,changeMyView,original,false
+0,"Hi, how can I help you today?",bot,webshop,original,False
+1,"Hello, I'm looking for a new phone.",user,webshop,original,False
+2,How much are you willing to spend?,bot,webshop,original,False
+3,I can spend around 500$.,user,webshop,original,False
+4,I can recommend the following phones:,bot,webshop,original,False
+5,iPhone SE or Galaxy S8,bot,webshop,original,True
+6,I prefer Apple devices. How is the battery life?,user,webshop,original,False
+7,The battery will last for a full day without charging. The screen is also nice.,bot,webshop,original,False
+8,That sounds great. Thank you!,user,webshop,original,False
+0,Should pregnant people have the right to choose abortion?,bot,changeMyView,original,False
+1,Many women do not become pregnant by choice. It is wrong to force these women to remain pregnant when they do not want to be.,user,changeMyView,original,False
+2,"Life begins at conception. Therefore, abortion violates the right to life of the fetus.",bot,changeMyView,original,False
+3,Access to legal abortion improves the health and safety of women.,user,changeMyView,original,False
+4,I disagree. Abortion can have harmful mental and physical consequences for the woman involved.,bot,changeMyView,original,False
+5,Women have a right to bodily autonomy and shoulf ultimatively be able to make choices about what happens to their bodies.,user,changeMyView,original,False

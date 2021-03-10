@@ -26,14 +26,17 @@ for style in paraDf['target_style'].unique():
         df = tempDf
         df = df.loc[df['source_idx'] == sourceIdx].sort_values(by='sentence_idx')
         row = inputDf.loc[sourceIdx].to_dict()
-        sentences = []
-        for sentence in df['style_transfer']:
-            sentence = sentence.strip()
-            if (not punctRegex.search(sentence)):
-                sentence += '.'
-            sentences.append(sentence)
+        # only use paraphrase of rows that are not const
+        if (not row['isConst']):
+            sentences = []
+            for sentence in df['style_transfer']:
+                sentence = sentence.strip()
+                if (not punctRegex.search(sentence)):
+                    sentence += '.'
+                sentences.append(sentence)
 
-        row['text'] = ' '.join(sentences).strip()
+            row['text'] = ' '.join(sentences).strip()
+
         row['targetStyle'] = style
         output.append(row)
 
