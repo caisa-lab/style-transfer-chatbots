@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Chat appropriateness HIT</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <style>
         .shade-1 {
             background-color: #1D5380;
@@ -141,7 +140,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreNatural"
-                                            id="moreNatural1" value="%style1%">
+                                            id="moreNatural1" value="%style1%" required>
                                         <label class="form-check-label" for="moreNatural1">
                                             %botName% 1 is more natural
                                         </label>
@@ -150,7 +149,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreNatural"
-                                            id="moreNatural2" value="%style2%">
+                                            id="moreNatural2" value="%style2%" required>
                                         <label class="form-check-label" for="moreNatural2">
                                             %botName% 2 is more natural
                                         </label>
@@ -162,7 +161,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreEngaging"
-                                            id="moreEngaging1" value="%style1%">
+                                            id="moreEngaging1" value="%style1%" required>
                                         <label class="form-check-label" for="moreEngaging1">
                                             %botName% 1 is more engaging
                                         </label>
@@ -171,7 +170,7 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="moreEngaging"
-                                            id="moreEngaging2" value="%style2%">
+                                            id="moreEngaging2" value="%style2%" required>
                                         <label class="form-check-label" for="moreEngaging2">
                                             %botName% 2 is more engaging
                                         </label>
@@ -183,18 +182,18 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="personalPreference"
-                                            id="personalPreference1" value="%style1%">
+                                            id="personalPreference1" value="%style1%" required>
                                         <label class="form-check-label" for="personalPreference1">
-                                            I would prefer to chat with %botName% 1.
+                                            I would prefer to chat with %botName% 1
                                         </label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="personalPreference"
-                                            id="personalPreference2" value="%style2%">
+                                            id="personalPreference2" value="%style2%" required>
                                         <label class="form-check-label" for="personalPreference2">
-                                            I would prefer to chat with %botName% 2.
+                                            I would prefer to chat with %botName% 2
                                         </label>
                                     </div>
                                 </td>
@@ -266,17 +265,24 @@
     <script language='Javascript'>
         function toggleReason(event) {
             let reason = document.getElementById('reason');
-            let best1 = document.getElementById('best1');
-            let worst1 = document.getElementById('worst1');
+            let prefIds = [
+                'moreNatural1', 'moreNatural2',
+                'moreEngaging1', 'moreEngaging2',
+                'personalPreference1', 'personalPreference2'
+            ];
 
             if (event.target.checked) {
                 show(reason);
-                removeRequired(best1);
-                removeRequired(worst1);
+                for (let prefId of prefIds) {
+                    let elem = document.getElementById(prefId);
+                    removeRequired(elem);
+                }
             } else {
                 hide(reason);
-                addRequired(best1);
-                addRequired(worst1);
+                for (let prefId of prefIds) {
+                    let elem = document.getElementById(prefId);
+                    addRequired(elem);
+                }
             }
         }
 
@@ -292,11 +298,11 @@
         }
 
         function addRequired(element) {
-            element.setAttribute('required', 'true');
+            element.required = true;
         }
 
         function removeRequired(element) {
-            element.removeAttribute('required');
+            element.required = false;
         }
 
         function getRadioValue(name) {
