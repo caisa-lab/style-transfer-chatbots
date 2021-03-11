@@ -5,8 +5,8 @@
         "description": "Imagine you are a Customer looking for a new product and chatting with a support Agent. "
     },
     "changeMyView": {
-        "botName": "Debate Bot",
+        "botName": "Debater",
         "userName": "User",
-        "description": "Imagine you want to "
+        "description": "Imagine you are a User who wants to discuss about a certain topic. You are chatting with a Debater who challenges your opinion."
     }
 }
