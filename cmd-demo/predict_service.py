@@ -39,16 +39,21 @@ parser.add_argument('--filter_candidates', type=bool, default=False,
                     help='If set to true, will only save the candidate with the best perplexity.')
 parser.add_argument('--batch_size', type=int, default=16,
                     help='Batch size to use for predictions')
+parser.add_argument('--use_intermediate_paraphraser', type=bool, default=True,
+                    help='Controls if a diverse paraphrasing model will be used before feeding the sentences to the stylistic paraphraser.')
+
 
 args = parser.parse_args()
 
 with torch.cuda.device(0):
-    print('Loading paraphraser...')
-    paraphraser = GPT2Generator(os.path.join(OUTPUT_DIR, 'models', 'paraphraser_gpt2_large'), upper_length='same_5')
-    paraphraser.gpt2_model.eval()
     print('Loading target style model:', args.model)
     model = GPT2Generator(os.path.join(OUTPUT_DIR, 'models', args.model))
     model.gpt2_model.eval()
+
+    if (args.use_intermediate_paraphraser):
+        print('Loading paraphraser...')
+        paraphraser = GPT2Generator(os.path.join(OUTPUT_DIR, 'models', 'paraphraser_gpt2_large'), upper_length='same_5')
+        paraphraser.gpt2_model.eval()
 
 style_mapping = {
     args.model: {'model': model, 'device': 0, 'data_file': args.model}
@@ -85,40 +90,47 @@ def main():
     with torch.no_grad():
         output_paraphrase = []
         paraphrase_perplexities = []
-        for i in tqdm(range(0, len(input_samples), batchSize)):
-            currentBatch = input_samples[i:i + batchSize]
-            with torch.cuda.device(0):
-                currentParaphrases, currentScores = paraphraser.generate_batch(currentBatch, top_p=args.top_p_paraphrase, get_scores=True)
-                currentPerplexities = 2 ** (-np.array(currentScores))
-            
-            output_paraphrase += currentParaphrases
-            paraphrase_perplexities += currentPerplexities.tolist()
+        if (args.use_intermediate_paraphraser):
+            for i in tqdm(range(0, len(input_samples), batchSize)):
+                currentBatch = input_samples[i:i + batchSize]
+                with torch.cuda.device(0):
+                    currentParaphrases, currentScores = paraphraser.generate_batch(currentBatch, top_p=args.top_p_paraphrase, get_scores=True)
+                    currentPerplexities = 2 ** (-np.array(currentScores))
+                
+                output_paraphrase += currentParaphrases
+                paraphrase_perplexities += currentPerplexities.tolist()
 
-        # create df of intermediate / diverse paraphrases and save it
-        df = pd.DataFrame().assign(source_idx=sourceIndices, sentence_idx=sentenceIndices, original_sentence=input_samples, paraphrase=output_paraphrase, paraphrase_perplexity=paraphrase_perplexities)
-        df = df.sort_values(by=['sentence_idx', 'paraphrase_perplexity'])
-        intermediatePath = csvPath.replace('.csv', '_intermediate.csv')
-        if (os.path.isfile(intermediatePath)):
-            df.to_csv(intermediatePath, mode='a', header=False)
+            # create df of intermediate / diverse paraphrases and save it
+            df = pd.DataFrame().assign(source_idx=sourceIndices, sentence_idx=sentenceIndices, original_sentence=input_samples, paraphrase=output_paraphrase, paraphrase_perplexity=paraphrase_perplexities)
+            df = df.sort_values(by=['sentence_idx', 'paraphrase_perplexity'])
+            intermediatePath = csvPath.replace('.csv', '_intermediate.csv')
+            if (os.path.isfile(intermediatePath)):
+                df.to_csv(intermediatePath, mode='a', header=False)
+            else:
+                df.to_csv(intermediatePath)
+            print('Saved intermediate / diverse paraphrases in', intermediatePath)
+        
+            # only use the most probable intermediate paraphrase
+            if (args.top_p_paraphrase > 0):
+                # exclude index columns
+                replaceColumns = [c for c in df.columns if not 'idx' in c]
+                for inputSentence in df['original_sentence'].unique():
+                    myMask = df['original_sentence'] == inputSentence
+                    currentDf = df.loc[myMask].sort_values(by='paraphrase_perplexity')
+                    bestCandidate = currentDf.head(1)
+                    df.loc[myMask, replaceColumns] = bestCandidate[replaceColumns].values.tolist()
+
+            nextColumn = 'paraphrase'
         else:
-            df.to_csv(intermediatePath)
-        print('Saved intermediate / diverse paraphrases in', intermediatePath)
-        
-        # only use the most probable intermediate paraphrase
-        if (args.top_p_paraphrase > 0):
-            # exclude index columns
-            replaceColumns = [c for c in df.columns if not 'idx' in c]
-            for inputSentence in df['original_sentence'].unique():
-                myMask = df['original_sentence'] == inputSentence
-                currentDf = df.loc[myMask].sort_values(by='paraphrase_perplexity')
-                bestCandidate = currentDf.head(1)
-                df.loc[myMask, replaceColumns] = bestCandidate[replaceColumns].values.tolist()
-        
+            # just use the input samples
+            df = pd.DataFrame().assign(source_idx=sourceIndices, sentence_idx=sentenceIndices, original_sentence=input_samples, paraphrase=output_paraphrase, paraphrase_perplexity=paraphrase_perplexities)
+            nextColumn = 'original_sentence'
+
         print('Stylistically paraphrasing {} sentences...'.format(len(df)))
         transferred_output = []
         transferred_perplexities = []
         for i in tqdm(range(0, len(df), batchSize)):
-            currentBatch = df['paraphrase'][i:i + batchSize].tolist()
+            currentBatch = df[nextColumn][i:i + batchSize].tolist()
             with torch.cuda.device(style_mapping[args.model]['device']):
                 model = style_mapping[args.model]['model']
                 currentTransfers, currentScores = model.generate_batch(currentBatch, top_p=args.top_p_style, get_scores=True)
