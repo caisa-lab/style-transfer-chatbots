@@ -1,5 +1,7 @@
 # Reformulating Unsupervised Style Transfer as Paraphrase Generation (EMNLP 2020)
 
+This is a fork of [Kalpesh Krishna's repository](https://github.com/martiansideofthemoon/style-transfer-paraphrase)
+
 This is the official repository accompanying the EMNLP 2020 long paper [Reformulating Unsupervised Style Transfer as Paraphrase Generation](https://arxiv.org/abs/2010.05700). This repository contains the accompanying dataset and codebase.
 
 This repository is a work-in-progress, but we have released several models, evaluation scripts, training code and demos.
