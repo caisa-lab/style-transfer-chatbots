@@ -5,13 +5,12 @@ import torch
 import pandas as pd
 import numpy as np
 from style_paraphrase.inference_utils import GPT2Generator
-from profanity_filter import ProfanityFilter
 from nltk import sent_tokenize
 from tqdm import tqdm
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
-pf = ProfanityFilter()
+
 
 OUTPUT_DIR = os.path.join(dname, '../man-generation')
 
