@@ -94,7 +94,7 @@ def main():
     numOfSamples = args.num_of_candidates
     sentenceIndex = 0
     print('Tokenizing {} samples...'.format(len(inDf[textCol])))
-    for idx, text in tqdm(inDf[textCol].items()):
+    for idx, text in tqdm(inDf[textCol].iteritems()):
         sentences = [s.strip() for s in sent_tokenize(text) if len(s.strip()) > 5]
         for sentence in sentences:
             for _ in range(numOfSamples):
