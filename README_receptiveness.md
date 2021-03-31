@@ -1,8 +1,8 @@
 ## Receptiveness demo
 
-Set up your environment and download the `paraphraser_gpt2_large` as described in the `README_terminal_demo.md`.
+Set up your environment and download the `paraphraser_gpt2_large` as described in the original `README.md`. Additionally, run `pip install numpy pandas` to install extra dependencies.
 
-Additionally, download the receptiveness paraphrasing models from [MEGA](https://mega.nz/file/wkpz2CCC#3JzZqKVMnF8OSo7pDlUEfqNJUYeu_IDvCqnPajck20I) and extract them to `man-generation/models`.
+Next, download the receptiveness paraphrasing models from [MEGA](https://mega.nz/file/wkpz2CCC#3JzZqKVMnF8OSo7pDlUEfqNJUYeu_IDvCqnPajck20I) and extract them to `man-generation/models`.
 
 Place the models so you end up with a directory structure like this:
 
