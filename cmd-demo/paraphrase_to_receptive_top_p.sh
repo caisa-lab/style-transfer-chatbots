@@ -3,7 +3,7 @@ STYLE=receptive
 # decrease the batch size if you get CUDA out of memory errors
 BATCH_SIZE=16
 # folder where the input file is
-DATA_DIR=some/folder
+DATA_DIR=.
 # column name of the text that should be paraphrased
 TEXT_COLUMN="text"
 # top_p sampling value for the intermediate paraphraser
