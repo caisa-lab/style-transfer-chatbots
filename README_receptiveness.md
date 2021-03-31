@@ -24,8 +24,8 @@ Place the models so you end up with a directory structure like this:
 You can use the `cmd-demo/predict_service.py` script to paraphrase data of your choice with the model of your choice. The main difference to the much more simple scripts from `README_terminal_demo.md` are:
 
 * it can work with text that is not split up into sentences
-* it can paraphrase from original sentence to target style in one script call
-* it can select from multiple candidates based on model perplexity
+* it can paraphrase from original sentence to target style using the two-step approach in one script call
+* it can select from multiple candidates based on model perplexity (lower == better)
 
 There are some sample calls in the `cmd-demo` directory. All scripts assume that you have a `.csv` file with your input data. You can change most settings in the variables at the top of the script. 
 
