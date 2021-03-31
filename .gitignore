@@ -58,3 +58,4 @@ man-generation/
 human-eval/hits*/
 human-eval/output.csv
 human-eval/**/paraphrases*.csv
+wandb/
