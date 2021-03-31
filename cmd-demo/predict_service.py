@@ -50,17 +50,16 @@ parser.add_argument('--no_cached_intermediate', dest='use_cached_intermediate', 
                     help='Do not use cached intermediate paraphrases to speed up computation.')
 parser.set_defaults(use_cached_intermediate=False)
 parser.add_argument('--filter_column', type=str, default='',
-                    help='Can be used to only paraphrase parts of the input file where the given column is set to "True".')
+                    help='Can be used to only paraphrase parts of the input file where the given column is set to "filter_value" (see below).')
 parser.add_argument('--filter_true', dest='filter_value', action='store_true')
 parser.add_argument('--filter_false', dest='filter_value', action='store_false')
 parser.set_defaults(filter_value=True)
 
 args = parser.parse_args()
 
-with torch.cuda.device(0):
-    print('Loading target style model:', args.model)
-    model = GPT2Generator(os.path.join(OUTPUT_DIR, 'models', args.model))
-    model.gpt2_model.eval()
+print('Loading target style model:', args.model)
+model = GPT2Generator(os.path.join(OUTPUT_DIR, 'models', args.model))
+model.gpt2_model.eval()
             
 def loadParaphraser():
     print('Loading paraphraser...')
