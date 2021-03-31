@@ -1,5 +1,5 @@
 # path to the receptiveness model
-STYLE=../man-generation/models/receptive
+STYLE=receptive
 # decrease the batch size if you get CUDA out of memory errors
 BATCH_SIZE=16
 # folder where the input file is
