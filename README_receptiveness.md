@@ -10,7 +10,11 @@ You can use the `cmd-demo/predict_service.py` script to paraphrase data of your 
 * it can paraphrase from original sentence to target style in one script call
 * it can select from multiple candidates based on model perplexity
 
-There are some sample calls in the `cmd-demo` directory. All scripts assume that you have a `.csv` file with your input data. You can change most settings in the variables at the top of the script.
+There are some sample calls in the `cmd-demo` directory. All scripts assume that you have a `.csv` file with your input data. You can change most settings in the variables at the top of the script. 
+
+To get a full list of possible arguments, run `python3 cmd-demo/predict_service.py --help`.
+
+You can ignore the `Some weights of the model checkpoint...` warning that is shown when loading the intermediate paraphraser. This is due to a transformers version mismatch, but shouldn't impact the generated sentences.
 
 ### Experimenting with the "strength" of the style transfer
 
