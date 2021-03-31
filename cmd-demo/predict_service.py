@@ -13,9 +13,7 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 pf = ProfanityFilter()
 
-with open(os.path.join(dname, 'config.json'), 'r') as f:
-    configuration = json.loads(f.read())
-    OUTPUT_DIR = configuration['output_dir']
+OUTPUT_DIR = os.path.join(dname, '../man-generation')
 
 parser = argparse.ArgumentParser()
 
@@ -89,7 +87,8 @@ def main():
         print('Filtering input based on column named:', args.filter_column)
 
     inDf = pd.read_csv(args.input_file)
-    inDf = inDf.loc[inDf[args.filter_column] == args.filter_value]
+    if (args.filter_column != ''):
+        inDf = inDf.loc[inDf[args.filter_column] == args.filter_value]
     numOfSamples = args.num_of_candidates
     sentenceIndex = 0
     print('Tokenizing {} samples...'.format(len(inDf[textCol])))
