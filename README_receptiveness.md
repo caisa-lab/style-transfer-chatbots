@@ -4,6 +4,23 @@ Set up your environment and download the `paraphraser_gpt2_large` as described i
 
 Additionally, download the receptiveness paraphrasing models from [MEGA](https://mega.nz/file/wkpz2CCC#3JzZqKVMnF8OSo7pDlUEfqNJUYeu_IDvCqnPajck20I) and extract them to `man-generation/models`.
 
+Place the models so you end up with a directory structure like this:
+
+```
+.
+   |-cmd-demo
+   |-datasets
+   |-fairseq
+   |-man-generation
+   |---models
+   |-----not_receptive
+   |-----paraphraser_gpt2_large
+   |-----receptive
+   |-samples
+   |-style_paraphrase
+   |-web-demo
+```
+
 You can use the `cmd-demo/predict_service.py` script to paraphrase data of your choice with the model of your choice. The main difference to the much more simple scripts from `README_terminal_demo.md` are:
 
 * it can work with text that is not split up into sentences
