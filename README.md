@@ -1,6 +1,10 @@
-# Reformulating Unsupervised Style Transfer as Paraphrase Generation (EMNLP 2020)
+# Stylistic paraphrasing for appropriate chatbot style
 
-This is a fork of [Kalpesh Krishna's repository](https://github.com/martiansideofthemoon/style-transfer-paraphrase)
+This is a fork of [Kalpesh Krishna's repository](https://github.com/martiansideofthemoon/style-transfer-paraphrase): Reformulating Unsupervised Style Transfer as Paraphrase Generation (EMNLP 2020).
+
+It has been adapted for paraphrasing various other styles with a focus on using it in a chatbot environment.
+
+The original readme starts below.
 
 This is the official repository accompanying the EMNLP 2020 long paper [Reformulating Unsupervised Style Transfer as Paraphrase Generation](https://arxiv.org/abs/2010.05700). This repository contains the accompanying dataset and codebase.
 
