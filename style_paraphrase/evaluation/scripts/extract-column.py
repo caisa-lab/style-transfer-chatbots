@@ -17,5 +17,7 @@ print('Output:', args.output_txt)
 df = pd.read_csv(args.input_csv, index_col=0)
 values = df[args.column_name].tolist()
 
+values = [v.replace('\r', '').replace('\n', '').strip() for v in values[:]]
+
 with open(args.output_txt, 'w') as f:
     f.write('\n'.join(values))
