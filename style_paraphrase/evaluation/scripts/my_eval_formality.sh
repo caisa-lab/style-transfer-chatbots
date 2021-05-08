@@ -72,12 +72,13 @@ python style_paraphrase/evaluation/scripts/get_paraphrase_similarity.py \
     --generated_path "$paraphraseTxt" \
     --reference_strs reference \
     --reference_paths "$inputRefTxt" \
-    --output_path ${OUTPUT_DIR}/generated_vs_inputs.txt
+    --output_path ${OUTPUT_DIR}/generated_vs_inputs.txt \
+    --store_scores
 
 printf "\n final normalized scores vs input..\n\n"
 python3 style_paraphrase/evaluation/scripts/micro_eval.py \
     --classifier_file "${paraphraseTxt}.roberta_labels" \
-    --paraphrase_file "${parapraseTxt}.pp_scores" \
+    --paraphrase_file "${paraphraseTxt}.pp_scores" \
     --generated_file "$paraphraseTxt" \
     --acceptability_file "${paraphraseTxt}.acceptability_labels"
 
@@ -128,11 +129,12 @@ python style_paraphrase/evaluation/scripts/get_paraphrase_similarity.py \
     --generated_path "$paraphraseTxt" \
     --reference_strs reference \
     --reference_paths "$inputRefTxt" \
-    --output_path ${OUTPUT_DIR}/generated_vs_inputs.txt
+    --output_path ${OUTPUT_DIR}/generated_vs_inputs.txt \
+    --store_scores
 
 printf "\n final normalized scores vs input..\n\n"
 python3 style_paraphrase/evaluation/scripts/micro_eval.py \
     --classifier_file "${paraphraseTxt}.roberta_labels" \
-    --paraphrase_file "${parapraseTxt}.pp_scores" \
+    --paraphrase_file "${paraphraseTxt}.pp_scores" \
     --generated_file "$paraphraseTxt" \
     --acceptability_file "${paraphraseTxt}.acceptability_labels"
