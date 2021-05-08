@@ -9,6 +9,7 @@ from . import BaseWrapperDataset
 
 
 class LRUCacheDataset(BaseWrapperDataset):
+
     def __init__(self, dataset, token=None):
         super().__init__(dataset)
 

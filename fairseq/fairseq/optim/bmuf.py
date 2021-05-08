@@ -3,13 +3,10 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from dataclasses import dataclass, field
-
 import torch
 import torch.distributed as dist
-from fairseq.dataclass.configs import FairseqBMUFConfig
-from fairseq.dataclass.utils import gen_parser_from_dataclass
-from fairseq.optim.fairseq_optimizer import FairseqOptimizer
+
+from . import FairseqOptimizer
 
 
 class FairseqBMUF(FairseqOptimizer):
@@ -22,24 +19,56 @@ class FairseqBMUF(FairseqOptimizer):
     model-update filtering
     """
 
-    def __init__(self, cfg: FairseqBMUFConfig, optimizer):
-        super().__init__(cfg)
+    def __init__(self, args, optimizer):
+
+        super().__init__(args)
         self._optimizer = optimizer
         self._num_updates = 0
-        self.sync_iter = cfg.global_sync_iter
-        self.block_momentum = cfg.block_momentum
-        self.block_lr = cfg.block_lr
+        self.sync_iter = self.args.global_sync_iter
+        self.block_momentum = self.args.block_momentum
+        self.block_lr = self.args.block_lr
         self._reset_local_data()
-        self.warmup_iteration = cfg.warmup_iterations
-        self.use_nbm = cfg.use_nbm
+        self.warmup_iteration = self.args.warmup_iterations
+        self.use_nbm = self.args.use_nbm
         self.initial_state = self._optimizer.state_dict()
-        self.average_sync = self.cfg.average_sync
-        self.world_size = self.cfg.distributed_world_size
+        self.average_sync = self.args.average_sync
 
     @staticmethod
     def add_args(parser):
         """Add optimizer-specific arguments to the parser."""
-        gen_parser_from_dataclass(parser, FairseqBMUFConfig())
+        parser.add_argument(
+            "--block-lr", default=1, type=float, help="block learning rate for bmuf"
+        )
+        parser.add_argument(
+            "--block-momentum",
+            default=0.875,
+            type=float,
+            help="block momentum for bmuf",
+        )
+        parser.add_argument(
+            "--global-sync-iter",
+            default=50,
+            type=int,
+            help="Iteration for syncing global model",
+        )
+        parser.add_argument(
+            "--warmup-iterations",
+            default=500,
+            type=int,
+            help="warmup iterations for model to broadcast",
+        )
+        parser.add_argument(
+            "--use-nbm",
+            default=True,
+            action="store_true",
+            help="Specify whether you want to use classical BM / Nesterov BM",
+        )
+        parser.add_argument(
+            "--average-sync",
+            default=True,
+            action="store_true",
+            help="Specify whether you want to average the local momentum after each sync",
+        )
 
     @property
     def optimizer(self):
@@ -60,22 +89,19 @@ class FairseqBMUF(FairseqOptimizer):
 
     def load_state_dict(self, state_dict, optimizer_overrides=None):
         self._optimizer.load_state_dict(state_dict, optimizer_overrides)
-        self.initial_state = self._optimizer.state_dict()
 
     def multiply_grads(self, c):
         """Multiplies grads by a constant *c*."""
         self._optimizer.multiply_grads(c)
 
-    def clip_grad_norm(self, max_norm, aggregate_norm_fn=None):
+    def clip_grad_norm(self, max_norm):
         """Clips gradient norm."""
-        return self._optimizer.clip_grad_norm(max_norm, aggregate_norm_fn)
+        return self._optimizer.clip_grad_norm(max_norm)
 
     def average_params(self):
         self._optimizer.average_params()
 
     def _block_sync(self):
-        if self.world_size <= 1:
-            return
         # Update the global model using local models from all GPUs
         # (Step-1) Calculate grad between previously synced model and
         # currrent local model
@@ -108,8 +134,6 @@ class FairseqBMUF(FairseqOptimizer):
         return False
 
     def _warmup_sync(self, root_rank=0):
-        if self.world_size <= 1:
-            return
         # Broadcast the local model to all gpus
         for param in self.params:
             dist.broadcast(param.data, src=root_rank)

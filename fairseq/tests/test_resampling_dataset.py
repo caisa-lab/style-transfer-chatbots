@@ -7,6 +7,7 @@ import collections
 import unittest
 
 import numpy as np
+
 from fairseq.data import ListDataset, ResamplingDataset
 
 

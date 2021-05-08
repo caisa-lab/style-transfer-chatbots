@@ -10,6 +10,7 @@ from . import BaseWrapperDataset
 
 
 class PrependTokenDataset(BaseWrapperDataset):
+
     def __init__(self, dataset, token=None):
         super().__init__(dataset)
         self.token = token
