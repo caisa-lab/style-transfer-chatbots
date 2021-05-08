@@ -1,8 +1,6 @@
 #!/bin/bash
 # export CUDA_VISIBLE_DEVICES=0
 
-
-
 BATCH_SIZE=16
 CORPUS="gyafc"
 LABEL_0="formal"
@@ -38,6 +36,7 @@ python3 "$GEN_SCRIPT" \
     --output_file "$paraphraseCsv" \
     --num_of_candidates 5 \
     --use_cached_intermediate \
+    --filter_candidates True \
     --batch_size $BATCH_SIZE
 
 # extract stylistic paraphrase from csv to txt
@@ -52,7 +51,7 @@ inputRefTxt="${OUTPUT_DIR}/transfer_${STYLE_1}_${split}_input.txt"
 python3 "$EXTRACT_SCRIPT" \
     --input_csv "$testCsv" \
     --output_txt "$inputRefTxt" \
-    --column_name "original_sentence"
+    --column_name "text"
 
 # classify style acc with roberta
 python3 "$CLASS_SCRIPT" \
@@ -93,6 +92,7 @@ python3 "$GEN_SCRIPT" \
     --output_file "$paraphraseCsv" \
     --num_of_candidates 5 \
     --use_cached_intermediate \
+    --filter_candidates True \
     --batch_size $BATCH_SIZE
 
 # extract stylistic paraphrase from csv to txt
@@ -107,7 +107,7 @@ inputRefTxt="${OUTPUT_DIR}/transfer_${STYLE_0}_${split}_input.txt"
 python3 "$EXTRACT_SCRIPT" \
     --input_csv "$testCsv" \
     --output_txt "$inputRefTxt" \
-    --column_name "original_sentence"
+    --column_name "text"
 
 # classify style acc with roberta
 python3 "$CLASS_SCRIPT" \
