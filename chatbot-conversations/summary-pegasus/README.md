@@ -1,6 +1,6 @@
 # PEGASUS Summarization
 
-This directory contains code for training PEGASUS on a subset of the [Debate Sum]() corpus.
+This directory contains code for training PEGASUS on a subset of the [Debate Sum](https://github.com/Hellisotherpeople/DebateSum) corpus.
 We adapt the [example](https://github.com/huggingface/transformers/tree/master/examples/pytorch/summarization) from huggingface for summarization.
 
 The `finetune_summarization_*.sh` scripts contain all details of our PEGASUS experiments.
