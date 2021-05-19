@@ -51,6 +51,8 @@ parser.add_argument('--filter_column', type=str, default='',
 parser.add_argument('--filter_true', dest='filter_value', action='store_true')
 parser.add_argument('--filter_false', dest='filter_value', action='store_false')
 parser.set_defaults(filter_value=True)
+parser.add_argument('--post_detokenize', dest='post_detokenize', action='store_true')
+parser.set_defaults(post_detokenize=False)
 
 args = parser.parse_args()
 
@@ -64,6 +66,9 @@ def loadParaphraser():
     paraphraser.gpt2_model.eval()
     return paraphraser
 
+def detokenize(x):
+    x = x.replace(" .", ".").replace(" ,", ",").replace(" !", "!").replace(" ?", "?").replace(" )", ")").replace("( ", "(")
+    return x
 
 style_mapping = {
     args.model: {'model': model, 'device': 0, 'data_file': args.model}
@@ -92,7 +97,7 @@ def main():
     sentenceIndex = 0
     print('Tokenizing {} samples...'.format(len(inDf[textCol])))
     for idx, text in tqdm(inDf[textCol].iteritems()):
-        sentences = [s.strip() for s in sent_tokenize(text) if len(s.strip()) > 5]
+        sentences = [s.strip() for s in sent_tokenize(text) if len(s.strip()) > 3]
         for sentence in sentences:
             for _ in range(numOfSamples):
                 input_samples.append(sentence)
@@ -177,13 +182,52 @@ def main():
     df = df.sort_values(by=['sentence_idx', 'style_perplexity'])
 
     if (args.filter_candidates):
+        print('Filtering candidates and joining sentences to match input.')
+        
+        def getLengthRatio(row):
+            orgLength = float(len(row['original_sentence']))
+            genLength = float(len(row['style_transfer']))
+            return genLength / orgLength
+
+        lengthRatios = []
+        for idx, row in df.iterrows():
+            lengthRatios.append(getLengthRatio(row))
+        df = df.assign(length_ratio=lengthRatios)
+
+        # select candidates based on perplexity
+
         tempDf = []
+        #df = df.loc[df['length_ratio'] <= 2.5]
         for sentenceIdx in df['sentence_idx'].unique():
             candidates = df.loc[df['sentence_idx'] == sentenceIdx]
             candidates = candidates.sort_values(by='style_perplexity')
             bestCandidate = candidates.iloc[0].to_dict()
+
+            if (args.post_detokenize):
+                bestCandidate['style_transfer'] = detokenize(bestCandidate['style_transfer'])
+
             tempDf.append(bestCandidate)
-        df = pd.DataFrame(tempDf)
+
+        tempDf = pd.DataFrame(tempDf)
+        output = []
+        # match up input index with generated sentences
+        for sourceIdx in tempDf['source_idx'].unique().tolist():
+            row = inDf.loc[sourceIdx].to_dict()
+
+            df = tempDf
+            df = df.loc[df['source_idx'] == sourceIdx].sort_values(by='sentence_idx')
+            sentences = []
+            for sentence in df['style_transfer']:
+                sentence = sentence.strip()
+                sentences.append(sentence)
+
+            if (args.post_detokenize):
+                row['style_transfer'] = ' '.join(sentences).strip().replace('@-@', '-')
+            else:
+                row['style_transfer'] = ' '.join(sentences).strip()
+            output.append(row)
+
+        df = pd.DataFrame(output)
 
     if (os.path.isfile(csvPath)):
         df.to_csv(csvPath, mode='a', header=False)
