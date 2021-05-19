@@ -1,0 +1,6 @@
+results/
+typings/
+wandb/
+.lock
+logs/
+datasets/
