@@ -1,0 +1,396 @@
+<QuestionForm xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2017-11-06/QuestionForm.xsd">
+    <Overview>
+        <Title>Qualification Test</Title>
+        <FormattedContent>
+        <![CDATA[
+            This is the qualification test for our Chat Participant Evaluation HITs. We will show some examples for <strong>Red Flags</strong> in the answers of the agent below.
+
+            <br />
+            Afterwards, you need to fill out all remaining THREE questions (4-6) and submit them at the bottom of the page.
+            <br />
+            You will earn the qualification to work on our Chat Participant Evaluation HITs based on the percentage of correct answers. 
+            <br />
+            Good luck!
+        ]]>
+        </FormattedContent>
+    </Overview>
+    <Overview>
+        <Title>Guidelines</Title> 
+        <FormattedContent>
+        <![CDATA[
+                    <p>
+                        Imagine you are a Customer looking for a new product and chatting with a support Agent.
+                        Your task is to annotate the conversation below.
+                    </p>
+                    For <strong>each message</strong> of the Agent, please indicate if they contain any <strong>Red Flags</strong> according to the following criteria:
+                    <ul>
+                        <li>
+                            <strong>Incoherent</strong>: Please select if the message of the Agent is incomprehensible
+                            or unrelated to the topic of the conversation.
+                        </li>
+                        <li>
+                            <strong>Offensive</strong>: Please select if the message of the Agent is rude or otherwise offensive.
+                        </li>
+                    </ul>
+                    <strong>General Hints</strong>:
+                    <ul>
+                        <li>
+                            You can ignore grammar or spelling errors in messages as long as you can still understand what
+                            it's about.
+                        </li>
+                    </ul>
+        ]]>
+        </FormattedContent>      
+    </Overview>
+    <Overview>
+        <Title>Examples</Title>
+        <FormattedContent>
+        <![CDATA[
+            This conversation will be the base of all following questions. 
+            The conversation is shown in chronological order from top to bottom.
+            For brevity, only new messages will be shown in the questions below.
+            <table border="1">
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>Hello, how can I help you?</td>
+                        </tr>
+                        <tr>
+                            <td>Hello, I'm looking for a new phone.</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>How much do you want to spend?</td>
+                        </tr>
+                        <tr>
+                            <td>I can spend around 500$. My last phone was a Nokia but I'm open to other brands.</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>I can recommend the following phone: Nokia Lumia 1520 32GB Black</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                Until now, there are no Red Flags in the messages of the Agent.
+                The customer might inquire further about some aspects of the product in the following questions.
+        ]]>
+        </FormattedContent>
+    </Overview>
+    <Overview>
+        <Title>Question 1 (example solution)</Title>
+        <FormattedContent>
+        <![CDATA[
+            <table border="1">
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>I heard that iPhones have a way better screen than this phone.</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>iPhones suck!!! Don't feed the capitalist scum that is Apple.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            <h2>Solution</h2>
+            Is the message of the Agent offensive?: <strong>Yes</strong>
+            <br />
+            Explanation: This message from the agent is rude. Other examples of offensiveness would include racism, sexism etc.
+            <br /><br />
+            Is the message of the Agent incoherent?: <strong>No</strong>
+            <br />
+            Explanation: This message still makes sense in the context of the conversation, even though it's not expressed in a nice way.
+        ]]>
+        </FormattedContent>
+    </Overview>
+    <Overview>
+        <Title>Question 2 (example solution)</Title>
+        <FormattedContent>
+        <![CDATA[
+            <table border="1">
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>What do you think about the sound of the phone?</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>I really like this song by Queen. It is my favorite.</td>
+                        </tr>
+                    </tbody>
+                </table>
+ 
+            <h2>Solution</h2>
+            Is the message of the Agent offensive?: <strong>No</strong>
+            <br /><br />
+            Is the message of the Agent incoherent?: <strong>Yes</strong>
+            <br />
+            Explanation: While this message is still related to sound or music, it does not really answer the question. It is unrelated to the context of the conversation. Other examples would include gibberish or talking about a completely different product category.
+        ]]>
+        </FormattedContent>
+    </Overview>
+    <Overview>
+        <Title>Question 3 (example solution)</Title>
+        <FormattedContent>
+        <![CDATA[
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Agent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>What about its battery?</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>The battery will last for a full day without charging. The phone has a nice screen, too.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+ 
+            <h2>Solution</h2>
+            Is the message of the Agent offensive?: <strong>No</strong>
+            <br /><br />
+            Is the message of the Agent incoherent?: <strong>No</strong>
+            <br />
+            Explanation: Even though the customer didn't explicitly ask about the screen of the phone, it should <strong>not</strong> be marked as unrelated or incoherent. Extra information about the product might be relevant for the customer.
+        ]]>
+        </FormattedContent>
+    </Overview>
+    <Overview>
+        <Title>Tasks</Title>
+        <FormattedContent>
+        <![CDATA[
+            Please fill out the remaining THREE questions. Your task starts below.
+        ]]>
+        </FormattedContent>
+    </Overview>
+    <Overview>
+        <Title>Question 4</Title>
+        <FormattedContent>
+        <![CDATA[
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Agent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>From your point of view, how is the performance?</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>He lives up to his promise every day.</td>
+                    </tr>
+                </tbody>
+            </table>
+        ]]>
+        </FormattedContent>
+    </Overview>
+    <Question>
+        <QuestionIdentifier>q4IsOffensive</QuestionIdentifier>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>Is the message of the Agent offensive?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>yes</SelectionIdentifier>
+                        <Text>Yes</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>no</SelectionIdentifier>
+                        <Text>No</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>q4IsIncoherent</QuestionIdentifier>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>Is the message of the Agent incoherent?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>yes</SelectionIdentifier>
+                        <Text>Yes</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>no</SelectionIdentifier>
+                        <Text>No</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+        <Overview>
+        <Title>Question 5</Title>
+        <FormattedContent>
+        <![CDATA[
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Agent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>What do you think about the design of the phone?</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Even worse than the sore ass was that in-between area.</td>
+                    </tr>
+                </tbody>
+            </table>
+        ]]>
+        </FormattedContent>
+    </Overview>
+    <Question>
+        <QuestionIdentifier>q5IsOffensive</QuestionIdentifier>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>Is the message of the Agent offensive?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>yes</SelectionIdentifier>
+                        <Text>Yes</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>no</SelectionIdentifier>
+                        <Text>No</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>q5IsIncoherent</QuestionIdentifier>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>Is the message of the Agent incoherent?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>yes</SelectionIdentifier>
+                        <Text>Yes</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>no</SelectionIdentifier>
+                        <Text>No</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Overview>
+        <Title>Question 6</Title>
+        <FormattedContent>
+        <![CDATA[
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Agent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>What about its display?</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Pixel density is the main difference between the phone and the more expensive ones. In addition, the price is quite good.</td>
+                    </tr>
+                </tbody>
+            </table>
+        ]]>
+        </FormattedContent>
+    </Overview>
+    <Question>
+        <QuestionIdentifier>q6IsOffensive</QuestionIdentifier>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>Is the message of the Agent offensive?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>yes</SelectionIdentifier>
+                        <Text>Yes</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>no</SelectionIdentifier>
+                        <Text>No</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>q6IsIncoherent</QuestionIdentifier>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>Is the message of the Agent incoherent?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>yes</SelectionIdentifier>
+                        <Text>Yes</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>no</SelectionIdentifier>
+                        <Text>No</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+</QuestionForm>

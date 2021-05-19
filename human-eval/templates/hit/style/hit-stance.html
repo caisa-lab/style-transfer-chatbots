@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat appropriateness HIT</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <style>
+        [data-toggle="collapse"] .fa:before {
+            content: "\f139";
+        }
+
+        [data-toggle="collapse"].collapsed .fa:before {
+            content: "\f13a";
+        }
+
+        .shade-1 {
+            background-color: #1D5380;
+            color: #f0f8ff;
+        }
+
+        .shade-2 {
+            background-color: #2975B3;
+            color: #f0f8ff;
+        }
+
+        .shade-3 {
+            background-color: #3BA7FF;
+        }
+
+        .shade-4 {
+            background-color: #76C1FF;
+        }
+
+        .shade-5 {
+            background-color: #9DD3FF;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header" id="guidelinesHeader">
+                <button class="btn btn-lg btn-link" data-toggle="collapse" data-target="#guidelines"
+                    aria-expanded="true" aria-controls="guidelines" role="button">
+                    <i class="fa" aria-hidden="true"></i> Guidelines
+                </button>
+            </div>
+            <div class="card-body collapse show" id="guidelines" aria-labelledby="guidelinesHeader">
+                %description%
+                <p>
+                    We want to evaluate two different %botName%s that respond slightly different to the %userName%.
+                </p>
+
+                For <strong>each message</strong>, please indicate if they contain any <strong>Red Flags</strong> according to the following criteria:
+                <ul>
+                    <li>
+                        <strong>Incoherent</strong>: Please mark the checkbox in case the message of the %botName% is incomprehensible
+                        or unrelated to the topic of the conversation.
+                    </li>
+                    <li>
+                        <strong>Offensive</strong>: Please mark the checkbox in case the message of the %botName% is rude or otherwise offensive.
+                    </li>
+                </ul>
+                
+                Additionally, please rate the %botName%s <strong>overall</strong> according to the following criteria:
+                <ul>
+                    <li>
+                        <strong>Natural</strong>: Please select which %botName% replies with messages that seem more natural in the
+                        context of this conversation.
+                    </li>
+                    <li>
+                        <strong>Likeable</strong>: Please select which %botName% is more pleasant or nice.
+                    </li>
+                    <li>
+                        <strong>Personal preference</strong>: Please select which %botName% you personally would prefer to chat with.
+                    </li>
+                </ul>
+                <strong>General Hints</strong>:
+                <ul>
+                    <li>
+                        You can ignore grammar or spelling errors in messages as long as you can still understand what
+                        it's about.
+                    </li>
+                    <li>
+                        You can click on card headers to show or hide their contents (Guidelines and Examples).
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="examplesHeader">
+                <button class="btn btn-lg btn-link collapsed" data-toggle="collapse" data-target="#examples"
+                    aria-expanded="false" aria-controls="examples" role="button">
+                    <i class="fa" aria-hidden="true"></i> Examples
+                </button>
+            </div>
+            <div class="card-body collapse" id="examples" aria-labelledby="examplesHeader">
+                Consider the following scenario:
+                <p>
+                    Imagine you are a Customer looking for a new product and chatting with a support Agent.
+                </p>
+                <p>
+                    The conversation is shown in chronological order from top to bottom. The most relevant messages are highlighted and explained below.
+                </p>
+                <p class="text-muted">
+                    Scenario: Customer Support
+                </p>
+                
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Agent 1</th>
+                            <th scope="col">Agent 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>Hello, how can I help you?</td>
+                            <td>Hi, how can I help you today?</td>
+                        </tr>
+                        <tr>
+                            <td>Hello, I'm looking for a new phone.</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>How much do you want to spend?</td>
+                            <td>How much are you willing to spend?</td>
+                        </tr>
+                        <tr>
+                            <td>I can spend around 500$. My last phone was a Nokia but I'm open to other brands.</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="shade-4">
+                                <p>I tend to use my cell phones more.</p>
+                                <div class="d-inline-flex flex-row">
+                                    <strong class="pr-2">Red Flags:</strong>
+                                    <strong>Is Incoherent</strong>.
+                                </div>
+                                <p>Explanation: Even though the message is about phones, it does not make any sense in the context of the conversation. Another example of incoherent messages would be talking about a completely unrelated topic.</p>
+                            </td>
+                            <td class="shade-2">
+                                <p>Nokia sucks balls! You better get this phone instead:</p>
+                                <div class="d-inline-flex flex-row">
+                                    <strong class="pr-2">Red Flags:</strong>
+                                    <strong>Is Offensive</strong>.
+                                </div>
+                                <p>Explanation: The message is rude. Other examples of offensive messages would include insults, racism, sexism etc.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Samsung Galaxy S8</td>
+                            <td>Samsung Galaxy S8</td>
+                        </tr>
+                        <tr>
+                            <td>What about its battery?</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="shade-5">
+                                <p>The battery will last for a full day without charging. The phone has a nice screen, too.</p>
+                                <div class="d-inline-flex flex-row">
+                                    <strong class="pr-2">Red Flags:</strong>
+                                    <strong>None</strong>.
+                                </div>
+                                <p>Explanation: Even though the customer didn't explicitly ask about the screen of the phone, it should <strong>not</strong> be marked as unrelated or incoherent. Extra information about the product might be relevant for the customer.
+                            </td>
+                            <td>The battery life is good and it charges quickly.</td>
+                        </tr>
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <p>
+                        There are no examples for the preference-based criteria to avoid biasing your opinion. Please refer to the guidelines for these criteria.
+                    </p>
+                    <p>
+                        We encourage you to pay attention to small differences between the two Agents. 
+                        However, in case you are unable to spot any meaningful difference, you can "Report a problem" at the bottom of the page.
+                    </p>
+                    The same principles apply to other conversation scenarios. The actual task starts below.
+            </div>
+        </div>
+
+        <form name="mturk_form" method="post" id="mturk_form" action="%postAction%" onsubmit="return onSubmit()">
+            <input type="hidden" name="assignmentId" value="" id="assignmentId">
+            <input type="hidden" name="scenario" value="%scenario%">
+            <input type="hidden" name="conversationId" value="%conversationId%">
+            <input type="hidden" name="style1" value="%style1%">
+            <input type="hidden" name="style2" value="%style2%">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Task</h4>
+                    <p>
+                        Please read the following conversation carefully and rate the two %botName%s according to the
+                        guidelines above.
+                        The conversation is shown in chronological order from top to bottom.
+                    </p>
+                    <p class="text-muted">Scenario: %scenarioName%</p>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">%userName%</th>
+                                <th scope="col">%botName% 1</th>
+                                <th scope="col">%botName% 2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            %turns%
+                        </tbody>
+                        <tbody class="thead-dark">
+                            <tr>
+                                <th scope="col">Evaluation Criteria</th>
+                                <th scope="col">%botName% 1</th>
+                                <th scope="col">%botName% 2</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Natural</th>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreNatural"
+                                            id="moreNatural1" value="%style1%" required>
+                                        <label class="form-check-label" for="moreNatural1">
+                                            %botName% 1 is more natural
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreNatural"
+                                            id="moreNatural2" value="%style2%" required>
+                                        <label class="form-check-label" for="moreNatural2">
+                                            %botName% 2 is more natural
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Likeable</th>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreLikeable"
+                                            id="moreLikeable1" value="%style1%" required>
+                                        <label class="form-check-label" for="moreLikeable1">
+                                            %botName% 1 is more likeable
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="moreLikeable"
+                                            id="moreLikeable2" value="%style2%" required>
+                                        <label class="form-check-label" for="moreLikeable2">
+                                            %botName% 2 is more likeable
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Personal preference</th>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="personalPreference"
+                                            id="personalPreference1" value="%style1%" required>
+                                        <label class="form-check-label" for="personalPreference1">
+                                            I would prefer to chat with %botName% 1
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="personalPreference"
+                                            id="personalPreference2" value="%style2%" required>
+                                        <label class="form-check-label" for="personalPreference2">
+                                            I would prefer to chat with %botName% 2
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="form-group">
+                        Do you personally agree with the initial statement of the %userName%?
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="agreesWithIssue"
+                                id="agreesWithIssueYes" value="true" required>
+                            <label class="form-check-label" for="agreesWithIssueYes">
+                                Yes, I agree with the %userName%.
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="agreesWithIssue"
+                                id="agreesWithIssueNo" value="false" required>
+                            <label class="form-check-label" for="agreesWithIssueNo">
+                                No, I don't agree with the %userName%.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="error" id="error" value="true"
+                                onchange="toggleReason(event);">
+                            <label for="error" class="form-check-label">Report a problem</label>
+                        </div>
+                        <div class="form-check" id="reasonNoDifference" style="display: none;">
+                            <input class="form-check-input" type="radio" name="reason" value="NO_DIFFERENCE"
+                                id="reasonNoDifferenceInput" onchange="toggleReasonText(event);">
+                            <label class="form-check-label" for="reason1">
+                                No meaningful difference between the two %botName%s
+                            </label>
+                        </div>
+                        <div class="form-check" id="reasonOther" style="display: none;">
+                            <input class="form-check-input" type="radio" name="reason" value="OTHER"
+                                id="reasonOtherInput" onchange="toggleReasonText(event);">
+                            <label class="form-check-label" for="reason2">
+                                Other reason
+                            </label>
+                        </div>
+                        <textarea type="text" class="form-control" name="reasonText" id="reasonText" style="display: none;"
+                            placeholder="Please enter a reason (at least 10 characters)..." minlength="10"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <script language='Javascript'>
+        function toggleReason(event) {
+            let prefIds = [
+                'moreNatural1', 'moreNatural2',
+                'moreLikeable1', 'moreLikeable2',
+                'personalPreference1', 'personalPreference2',
+                'agreesWithIssueYes', 'agreesWithIssueNo'
+            ];
+            let reasonIds = [
+                'reasonNoDifference',
+                'reasonOther'
+            ];
+
+            if (event.target.checked) {
+                for (let reasonId of reasonIds) {
+                    let elem = document.getElementById(reasonId);
+                    show(elem);
+                    let inputElem = document.getElementById(reasonId + 'Input');
+                    addRequired(inputElem);
+                }
+                for (let prefId of prefIds) {
+                    let elem = document.getElementById(prefId);
+                    removeRequired(elem);
+                }
+            } else {
+                for (let reasonId of reasonIds) {
+                    let elem = document.getElementById(reasonId);
+                    hide(elem);
+                    let inputElem = document.getElementById(reasonId + 'Input');
+                    removeRequired(inputElem);
+                }
+                for (let prefId of prefIds) {
+                    let elem = document.getElementById(prefId);
+                    addRequired(elem);
+                }
+            }
+
+            document.getElementById('reasonOtherInput').checked = false;
+            toggleReasonText(event);
+        }
+
+        function toggleReasonText(event) {
+            console.log('yeet');
+            let elem = document.getElementById('reasonText');
+            if (document.getElementById('reasonOtherInput').checked) {
+                show(elem);
+            } else {
+                hide(elem);
+            }
+        }
+
+        function show(element) {
+            element.style.display = 'block';
+            addRequired(element);
+        }
+
+        function hide(element) {
+            element.style.display = 'none';
+            removeRequired(element);
+            element.value = "";
+        }
+
+        function addRequired(element) {
+            element.required = true;
+        }
+
+        function removeRequired(element) {
+            element.required = false;
+        }
+
+        function getRadioValue(name) {
+            return document.querySelector('input[name="' + name + '"]:checked').value;
+        }
+
+        function onSubmit() {
+            let value = document.getElementById('assignmentId').value;
+
+            if (value != 'ASSIGNMENT_ID_NOT_AVAILABLE') {
+                return true;
+            }
+            // else
+            return false;
+        }
+    </script>
+    <script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
+    <script language='Javascript'>turkSetAssignmentID();</script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>    
+</body>
+
+</html>

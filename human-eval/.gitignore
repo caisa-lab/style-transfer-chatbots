@@ -1,0 +1,7 @@
+paraphrases*.csv
+hits*/
+chaining/
+.vscode/
+*__pycache__*
+plots/
+temp/

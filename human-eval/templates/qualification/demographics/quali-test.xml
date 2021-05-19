@@ -1,0 +1,198 @@
+<QuestionForm xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2017-11-06/QuestionForm.xsd">
+    <Overview>
+        <Title>Chat participant evaluation - Worker Demographics</Title>
+        <Text>This qualification test is used to get an overview of our workers&#39; demographics. Please answer the questions honestly! We do not exclude any worker based on their demographics.</Text>
+    </Overview>
+    <Question>
+        <QuestionIdentifier>gender</QuestionIdentifier>
+        <DisplayName>Gender</DisplayName>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>What is your gender?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>male</SelectionIdentifier>
+                        <Text>Male</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>female</SelectionIdentifier>
+                        <Text>Female</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>other</SelectionIdentifier>
+                        <Text>Other</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>age</QuestionIdentifier>
+        <DisplayName>Age</DisplayName>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>How old are you in years?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>18_29</SelectionIdentifier>
+                        <Text>18-29</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>30_45</SelectionIdentifier>
+                        <Text>30-45</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>46_60</SelectionIdentifier>
+                        <Text>46-60</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>61_plus</SelectionIdentifier>
+                        <Text>61 and over</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>country</QuestionIdentifier>
+        <DisplayName>Country of Residence</DisplayName>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>In which country do you currently live?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>usa</SelectionIdentifier>
+                        <Text>United States of America (USA)</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>canada</SelectionIdentifier>
+                        <Text>Canada</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>other</SelectionIdentifier>
+                        <Text>Other</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>state</QuestionIdentifier>
+        <DisplayName>State of Residence</DisplayName>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>In which state (USA) or province (Canada) do you currently live? Please enter the postal abbreviation (two characters):</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <FreeTextAnswer>
+                <Constraints>
+                    <Length minLength="2" maxLength="2"/>
+                </Constraints>
+            </FreeTextAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>education</QuestionIdentifier>
+        <DisplayName>Education</DisplayName>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>What is your highest level of education attained?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>elementary</SelectionIdentifier>
+                        <Text>Elementary school</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>highschool</SelectionIdentifier>
+                        <Text>High school</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>bachelor</SelectionIdentifier>
+                        <Text>Bachelor&#39;s degree</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>master</SelectionIdentifier>
+                        <Text>Master&#39;s degree</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>phd</SelectionIdentifier>
+                        <Text>Ph.D</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>other</SelectionIdentifier>
+                        <Text>Other</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>english</QuestionIdentifier>
+        <DisplayName>English</DisplayName>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>Is English your native language?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>yes</SelectionIdentifier>
+                        <Text>Yes</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>no</SelectionIdentifier>
+                        <Text>No</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Question>
+        <QuestionIdentifier>english_age</QuestionIdentifier>
+        <DisplayName>English Age</DisplayName>
+        <IsRequired>true</IsRequired>
+        <QuestionContent>
+            <Text>How old, in years, were you when you first learned English?</Text>
+        </QuestionContent>
+        <AnswerSpecification>
+            <SelectionAnswer>
+                <Selections>
+                    <Selection>
+                        <SelectionIdentifier>0_5</SelectionIdentifier>
+                        <Text>0-5</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>6_12</SelectionIdentifier>
+                        <Text>6-12</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>13_19</SelectionIdentifier>
+                        <Text>13-19</Text>
+                    </Selection>
+                    <Selection>
+                        <SelectionIdentifier>20_plus</SelectionIdentifier>
+                        <Text>20 and above</Text>
+                    </Selection>
+                </Selections>
+            </SelectionAnswer>
+        </AnswerSpecification>
+    </Question>
+    <Overview>
+        <Text>
+            You will usually be granted the qualification to work on our HITs within a few minutes after submission. Thanks for your interest in our HITs!
+        </Text>
+    </Overview>
+</QuestionForm>

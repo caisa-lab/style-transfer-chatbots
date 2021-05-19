@@ -1,0 +1,27 @@
+We evaluate on the 50 good quality phone conversations.
+We will compare the following style pairs:
+formal, informal
+polite, impolite
+original, formal
+original, informal
+original, polite
+original, impolite
+
+Thus, we have 6 HITs per conversation and need to upload 6*50 = 300 HITs in total.
+Price and time calculations:
+
+Expert test results:
+Mean duration: 01:24
+Median duration: 00:38
+=== Input ===
+Tax: 20.0%
+Seconds per HIT: 60
+Assignments per HIT: 3
+Captcha rate: 10.0%
+Hourly worker rate: 7.25$
+Number of HITs: 300
+=== Output ===
+Number of HITs*Assignments: 990
+Hit reward (w/o tax): 0.12$
+Hit reward (w/ tax): 0.144$
+Cost (w/ tax): 142.56$

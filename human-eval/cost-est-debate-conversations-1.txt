@@ -1,0 +1,12 @@
+=== Input ===
+Tax: 20.0%
+Seconds per HIT: 65
+Assignments per HIT: 3
+Captcha rate: 10.0%
+Hourly worker rate: 8.3$
+Number of HITs: 450
+=== Output ===
+Number of HITs*Assignments: 1485
+Hit reward (w/o tax): 0.15$
+Hit reward (w/ tax): 0.18$
+Cost (w/ tax): 267.3$
