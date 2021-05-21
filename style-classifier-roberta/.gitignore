@@ -1,0 +1,5 @@
+results/*
+logs/*
+wandb/*
+data/*
+*.pyc
