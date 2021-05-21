@@ -1,0 +1,4 @@
+*.pyc
+.vscode/
+__pycache__/
+data/politeness/raw/politeness.csv
