@@ -7,7 +7,7 @@
 #SBATCH --mem=40GB
 #SBATCH -d singleton
 #SBATCH --ntasks=1
-#SBATCH --mail-user=p.nothvogel@gmail.com
+#SBATCH --mail-user=phil-n@outlook.com
 #SBATCH --mail-type=ALL
 #SBATCH --account=cai-student
 
@@ -36,7 +36,7 @@ unset __conda_setup
 module purge
 module load cuda/11.0
 conda activate style
-export WANDB_API_KEY=6de83da6c6fa47080f927222261e75c1d7c8bf01
+export WANDB_API_KEY=yourApiKey
 export WANDB_CONFIG_DIR=/ukp-storage-1/nothvogel/.config/wandb
 
 
